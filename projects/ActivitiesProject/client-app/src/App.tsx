@@ -22,7 +22,7 @@ function App() {
       </Heading>
       <List>
         {activities.map((activity: any) => (
-          <ListItem>{activity.title}</ListItem>
+          <ListItem key={activity.id}>{activity.title}</ListItem>
         ))}
       </List>
     </div>
