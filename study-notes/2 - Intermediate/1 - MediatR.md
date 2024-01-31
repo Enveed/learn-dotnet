@@ -2,6 +2,9 @@
 
 * MediatR pattern helps to reduce direct dependency between multiple objects and make them collaborative through MediatR.
 
+![[Mediatr-1.png]]
+
+
 * Creating MediatR Qurey and Query Handler:
 
 ``` c#
@@ -84,4 +87,4 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(List.
 
 ## References
 
-#dotnet #cors
+#dotnet #mediatr #intermediate #clean-architecture #cqrs
