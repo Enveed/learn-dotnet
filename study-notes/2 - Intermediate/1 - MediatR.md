@@ -36,6 +36,38 @@ namespace Application.Activities
 }
 ```
 
+* Creating MediatR Qurey and Query Handler:
+
+``` c#
+// Application/Activities/Create.cs
+
+using Domain;
+using MediatR;
+using Persistence;
+
+namespace Application.Activities
+{
+    public class Create
+    {
+        public class Command : IRequest
+        {
+            public Activity Activity { get; set; }
+        }
+  
+        public class Handler(DataContext context) : IRequestHandler<Command>
+        {
+            private readonly DataContext _context = context;
+            
+            public async Task Handle(Command request, CancellationToken cancellationToken)
+            {
+                _context.Activities.Add(request.Activity);
+                await _context.SaveChangesAsync();
+            }
+        }
+    }
+}
+```
+
 * Linking MediatR to Controller:
 
 ``` c#
@@ -70,8 +102,16 @@ public class ActivitiesController() : BaseApiController
     }
   
     [HttpGet("{id}")]
+
     public async Task<ActionResult<Activity>> GetActivity(Guid id)
     {
+        return await Mediator.Send(new Details.Query { Id = id });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateActivity(Activity activity)
+    {
+        await Mediator.Send(new Create.Command { Activity = activity });
         return Ok();
     }
 }
