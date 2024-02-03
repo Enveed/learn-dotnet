@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
-import "./App.css";
+import "./styles.css";
 import axios from "axios";
 import { Heading, Icon } from "@chakra-ui/react";
 import { PiUsersThree } from "react-icons/pi";
 import { List, ListItem } from "@chakra-ui/react";
+import { Activity } from "../../interfaces";
 
-function App() {
-  const [activities, setActivities] = useState([]);
+function Layout() {
+  const [activities, setActivities] = useState<Activity[]>([]);
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/activities")
+      .get<Activity[]>("http://localhost:5000/api/activities")
       .then((response) => setActivities(response.data));
   }, []);
 
@@ -21,7 +22,7 @@ function App() {
         I'm a Heading
       </Heading>
       <List>
-        {activities.map((activity: any) => (
+        {activities.map((activity: Activity) => (
           <ListItem key={activity.id}>{activity.title}</ListItem>
         ))}
       </List>
@@ -29,4 +30,4 @@ function App() {
   );
 }
 
-export default App;
+export default Layout;
