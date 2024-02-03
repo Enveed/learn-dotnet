@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import "./styles.css";
 import axios from "axios";
-import { Heading, Icon } from "@chakra-ui/react";
-import { PiUsersThree } from "react-icons/pi";
-import { List, ListItem } from "@chakra-ui/react";
+import { Container } from "@chakra-ui/react";
 import { Activity } from "../../interfaces";
+import { ActivityDashboard, Navbar } from "..";
 
 function Layout() {
   const [activities, setActivities] = useState<Activity[]>([]);
@@ -16,17 +15,12 @@ function Layout() {
   }, []);
 
   return (
-    <div>
-      <Heading as="h2">
-        <Icon as={PiUsersThree} />
-        I'm a Heading
-      </Heading>
-      <List>
-        {activities.map((activity: Activity) => (
-          <ListItem key={activity.id}>{activity.title}</ListItem>
-        ))}
-      </List>
-    </div>
+    <>
+      <Navbar />
+      <Container mt="7em" maxWidth="950px">
+        <ActivityDashboard activities={activities} />
+      </Container>
+    </>
   );
 }
 
