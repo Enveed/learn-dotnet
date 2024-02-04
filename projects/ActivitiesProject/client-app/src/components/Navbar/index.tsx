@@ -25,6 +25,7 @@ export default function Navbar() {
       color="white"
       justifyContent="center"
       wrap="wrap"
+      zIndex={500}
     >
       <Flex
         align="center"
