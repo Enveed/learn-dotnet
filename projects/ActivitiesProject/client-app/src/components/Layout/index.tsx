@@ -17,7 +17,7 @@ function Layout() {
   return (
     <>
       <Navbar />
-      <Container mt="7em" maxWidth="950px">
+      <Container mt="7em" maxWidth="950px" p={0}>
         <ActivityDashboard activities={activities} />
       </Container>
     </>
