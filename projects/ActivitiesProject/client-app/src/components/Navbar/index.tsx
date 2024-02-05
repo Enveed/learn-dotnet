@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Container,
   Flex,
   Heading,
   Image,
@@ -10,7 +9,11 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 
-export default function Navbar() {
+interface Props {
+  openForm: () => void;
+}
+
+export default function Navbar({ openForm }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const handleToggle = () => (isOpen ? onClose() : onOpen());
 
@@ -65,6 +68,7 @@ export default function Navbar() {
             variant="outline"
             color="white"
             _hover={{ bg: "teal.700", borderColor: "teal.700" }}
+            onClick={openForm}
           >
             Create Activity
           </Button>

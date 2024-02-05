@@ -13,15 +13,21 @@ import { Activity } from "../../../interfaces";
 
 interface Props {
   activity: Activity;
+  cancelSelectActivity: () => void;
+  openForm: (id: string) => void;
 }
 
-export default function ActivityDetails({ activity }: Props) {
+export default function ActivityDetails({
+  activity,
+  cancelSelectActivity,
+  openForm,
+}: Props) {
   return (
     <Card maxW="sm">
       <CardBody p={0}>
         <Image
           src={`/assets/categoryImages/${activity.category}.jpg`}
-          alt="Green double couch with wooden legs"
+          alt="Category Image"
           borderRadius="lg"
         />
         <Stack gap={0} p={5}>
@@ -40,11 +46,21 @@ export default function ActivityDetails({ activity }: Props) {
 
       <CardFooter>
         <ButtonGroup spacing="2" flex="1">
-          <Button variant="outline" colorScheme="blue" w="50%">
+          <Button
+            variant="outline"
+            colorScheme="blue"
+            w="50%"
+            onClick={() => openForm(activity.id)}
+          >
             Edit
           </Button>
-          <Button variant="outline" colorScheme="blackAlpha" w="50%">
-            Add to cart
+          <Button
+            variant="outline"
+            colorScheme="blackAlpha"
+            w="50%"
+            onClick={cancelSelectActivity}
+          >
+            Cancel
           </Button>
         </ButtonGroup>
       </CardFooter>
