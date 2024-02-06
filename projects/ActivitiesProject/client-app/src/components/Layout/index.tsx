@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import "./styles.css";
-import axios from "axios";
 import { Container } from "@chakra-ui/react";
 import { Activity } from "../../interfaces";
 import { ActivityDashboard, Navbar } from "..";
 import { v4 as uuid } from "uuid";
+import agent from "../../services/AxiosService";
 
 function Layout() {
   const [activities, setActivities] = useState<Activity[]>([]);
@@ -14,9 +14,9 @@ function Layout() {
   const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
-    axios
-      .get<Activity[]>("http://localhost:5000/api/activities")
-      .then((response) => setActivities(response.data));
+    agent.Activities.list().then((response) => {
+      setActivities(response);
+    });
   }, []);
 
   const handleSelectActivity = (id: string) => {
