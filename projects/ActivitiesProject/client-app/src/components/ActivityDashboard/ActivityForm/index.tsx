@@ -6,12 +6,14 @@ interface Props {
   closeForm: () => void;
   activity: Activity | undefined;
   createOrEdit: (activity: Activity) => void;
+  submitting: boolean;
 }
 
 export default function ActivityForm({
   closeForm,
   activity: selectedActivity,
   createOrEdit,
+  submitting,
 }: Props) {
   const initialState = selectedActivity ?? {
     id: "",
@@ -85,7 +87,12 @@ export default function ActivityForm({
         <Button colorScheme="red" onClick={closeForm}>
           Cancel
         </Button>
-        <Button colorScheme="blue" onClick={handleSubmit}>
+        <Button
+          colorScheme="blue"
+          onClick={handleSubmit}
+          isLoading={submitting}
+          loadingText="Submitting"
+        >
           Submit
         </Button>
       </Flex>

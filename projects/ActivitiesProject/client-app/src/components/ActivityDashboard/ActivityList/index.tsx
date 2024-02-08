@@ -9,18 +9,31 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Activity } from "../../../interfaces";
+import { SyntheticEvent, useState } from "react";
 
 interface Props {
   activities: Activity[];
   selectActivity: (id: string) => void;
   deleteActivity: (id: string) => void;
+  submitting: boolean;
 }
 
 export default function ActivityList({
   activities,
   selectActivity,
   deleteActivity,
+  submitting,
 }: Props) {
+  const [target, setTarget] = useState("");
+
+  const handleActivityDelete = (
+    e: SyntheticEvent<HTMLButtonElement>,
+    id: string
+  ) => {
+    setTarget(e.currentTarget.name);
+    deleteActivity(id);
+  };
+
   return (
     <>
       {activities.map((activity) => (
@@ -52,9 +65,12 @@ export default function ActivityList({
                 </Button>
                 <Flex gap={2}>
                   <Button
-                    onClick={() => deleteActivity(activity.id)}
+                    name={activity.id}
+                    onClick={(e) => handleActivityDelete(e, activity.id)}
                     variant="solid"
                     colorScheme="red"
+                    isLoading={submitting && target === activity.id}
+                    loadingText="Submitting"
                   >
                     Delete
                   </Button>
