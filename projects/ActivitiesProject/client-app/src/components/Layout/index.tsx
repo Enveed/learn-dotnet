@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./styles.css";
 import { Container } from "@chakra-ui/react";
 import { Activity } from "../../interfaces";
-import { ActivityDashboard, Navbar } from "..";
+import { ActivityDashboard, LoadingComponent, Navbar } from "..";
 import { v4 as uuid } from "uuid";
 import agent from "../../services/AxiosService";
 
@@ -12,6 +12,7 @@ function Layout() {
     Activity | undefined
   >(undefined);
   const [editMode, setEditMode] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     agent.Activities.list().then((response) => {
@@ -21,6 +22,7 @@ function Layout() {
         activities.push(activity);
       });
       setActivities(activities);
+      setLoading(false);
     });
   }, []);
 
@@ -55,6 +57,8 @@ function Layout() {
   const handleDeleteActivity = (id: string) => {
     setActivities([...activities.filter((x) => x.id !== id)]);
   };
+
+  if (loading) return <LoadingComponent content="Loading app" />;
 
   return (
     <>
