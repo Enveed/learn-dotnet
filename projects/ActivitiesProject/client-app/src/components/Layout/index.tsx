@@ -5,26 +5,19 @@ import { Activity } from "../../interfaces";
 import { ActivityDashboard, LoadingComponent, Navbar } from "..";
 import { v4 as uuid } from "uuid";
 import agent from "../../services/AxiosService";
+import { ActivityStore } from "../../stores";
 
 function Layout() {
-  const [activities, setActivities] = useState<Activity[]>([]);
+  const [act, setActivities] = useState<Activity[]>([]);
   const [selectedActivity, setSelectedActivity] = useState<
     Activity | undefined
   >(undefined);
   const [editMode, setEditMode] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const { activities, loadActivities, loadingInitial } = ActivityStore();
 
   useEffect(() => {
-    agent.Activities.list().then((response) => {
-      const activities: Activity[] = [];
-      response.forEach((activity) => {
-        activity.date = activity.date.split("T")[0];
-        activities.push(activity);
-      });
-      setActivities(activities);
-      setLoading(false);
-    });
+    loadActivities();
   }, []);
 
   const handleSelectActivity = (id: string) => {
@@ -75,7 +68,7 @@ function Layout() {
     });
   };
 
-  if (loading) return <LoadingComponent content="Loading app" />;
+  if (loadingInitial) return <LoadingComponent content="Loading app" />;
 
   return (
     <>
