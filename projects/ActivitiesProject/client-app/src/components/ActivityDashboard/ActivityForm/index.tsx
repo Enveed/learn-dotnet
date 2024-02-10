@@ -1,20 +1,15 @@
 import { Box, Button, Flex, Input, Textarea } from "@chakra-ui/react";
 import { Activity } from "../../../interfaces";
 import { ChangeEvent, useState } from "react";
+import { ActivityStore } from "../../../stores";
 
 interface Props {
-  closeForm: () => void;
-  activity: Activity | undefined;
   createOrEdit: (activity: Activity) => void;
   submitting: boolean;
 }
 
-export default function ActivityForm({
-  closeForm,
-  activity: selectedActivity,
-  createOrEdit,
-  submitting,
-}: Props) {
+export default function ActivityForm({ createOrEdit, submitting }: Props) {
+  const { selectedActivity, closeForm } = ActivityStore();
   const initialState = selectedActivity ?? {
     id: "",
     title: "",

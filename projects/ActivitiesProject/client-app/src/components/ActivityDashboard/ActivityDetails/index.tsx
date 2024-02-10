@@ -9,19 +9,16 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { Activity } from "../../../interfaces";
+import { ActivityStore } from "../../../stores";
 
-interface Props {
-  activity: Activity;
-  cancelSelectActivity: () => void;
-  openForm: (id: string) => void;
-}
+export default function ActivityDetails() {
+  const {
+    selectedActivity: activity,
+    openForm,
+    cancelSelectedActivity,
+  } = ActivityStore();
 
-export default function ActivityDetails({
-  activity,
-  cancelSelectActivity,
-  openForm,
-}: Props) {
+  if (!activity) return;
   return (
     <Card maxW="sm">
       <CardBody p={0}>
@@ -58,7 +55,7 @@ export default function ActivityDetails({
             variant="outline"
             colorScheme="blackAlpha"
             w="50%"
-            onClick={cancelSelectActivity}
+            onClick={cancelSelectedActivity}
           >
             Cancel
           </Button>

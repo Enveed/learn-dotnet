@@ -8,12 +8,10 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
+import { ActivityStore } from "../../stores";
 
-interface Props {
-  openForm: () => void;
-}
-
-export default function Navbar({ openForm }: Props) {
+export default function Navbar() {
+  const { openForm } = ActivityStore();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const handleToggle = () => (isOpen ? onClose() : onOpen());
 
@@ -68,7 +66,7 @@ export default function Navbar({ openForm }: Props) {
             variant="outline"
             color="white"
             _hover={{ bg: "teal.700", borderColor: "teal.700" }}
-            onClick={openForm}
+            onClick={() => openForm()}
           >
             Create Activity
           </Button>

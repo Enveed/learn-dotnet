@@ -20,23 +20,6 @@ function Layout() {
     loadActivities();
   }, []);
 
-  const handleSelectActivity = (id: string) => {
-    setSelectedActivity(activities.find((activity) => activity.id === id));
-  };
-
-  const handleCancelSelectActivity = () => {
-    setSelectedActivity(undefined);
-  };
-
-  const handleFormOpen = (id?: string) => {
-    id ? handleSelectActivity(id) : handleCancelSelectActivity();
-    setEditMode(true);
-  };
-
-  const handleFormClose = () => {
-    setEditMode(false);
-  };
-
   const handleCreateOrEditActivity = (activity: Activity) => {
     setSubmitting(true);
     if (activity.id) {
@@ -72,16 +55,10 @@ function Layout() {
 
   return (
     <>
-      <Navbar openForm={handleFormOpen} />
+      <Navbar />
       <Container mt="7em" maxWidth="950px" p={0}>
         <ActivityDashboard
           activities={activities}
-          selectedActivity={selectedActivity}
-          selectActivity={handleSelectActivity}
-          cancelSelectActivity={handleCancelSelectActivity}
-          editMode={editMode}
-          openForm={handleFormOpen}
-          closeForm={handleFormClose}
           createOrEdit={handleCreateOrEditActivity}
           deleteActivity={handleDeleteActivity}
           submitting={submitting}

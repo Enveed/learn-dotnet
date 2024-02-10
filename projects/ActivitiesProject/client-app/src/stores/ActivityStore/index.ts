@@ -4,16 +4,20 @@ import agent from "../../services/AxiosService";
 
 interface ActivityState {
   activities: Activity[];
-  selectedActivity: Activity | null;
+  selectedActivity: Activity | undefined;
   editMode: boolean;
   loading: boolean;
   loadingInitial: boolean;
   loadActivities: () => void;
+  selectActivity: (id: string) => void;
+  cancelSelectedActivity: () => void;
+  openForm: (id?: string) => void;
+  closeForm: () => void;
 }
 
-export const ActivityStore = create<ActivityState>()((set) => ({
+export const ActivityStore = create<ActivityState>()((set, get) => ({
   activities: [],
-  selectedActivity: null,
+  selectedActivity: undefined,
   editMode: false,
   loading: false,
   loadingInitial: false,
@@ -33,5 +37,26 @@ export const ActivityStore = create<ActivityState>()((set) => ({
       console.log(e);
       set({ loadingInitial: false });
     }
+  },
+  selectActivity: (id: string) => {
+    set((state) => ({
+      selectedActivity: state.activities.find((a) => a.id === id),
+    }));
+  },
+  cancelSelectedActivity: () => {
+    set(() => ({
+      selectedActivity: undefined,
+    }));
+  },
+  openForm: (id?: string) => {
+    id ? get().selectActivity(id) : get().cancelSelectedActivity();
+    set(() => ({
+      editMode: true,
+    }));
+  },
+  closeForm: () => {
+    set(() => ({
+      editMode: false,
+    }));
   },
 }));

@@ -10,21 +10,21 @@ import {
 } from "@chakra-ui/react";
 import { Activity } from "../../../interfaces";
 import { SyntheticEvent, useState } from "react";
+import { ActivityStore } from "../../../stores";
 
 interface Props {
   activities: Activity[];
-  selectActivity: (id: string) => void;
   deleteActivity: (id: string) => void;
   submitting: boolean;
 }
 
 export default function ActivityList({
   activities,
-  selectActivity,
   deleteActivity,
   submitting,
 }: Props) {
   const [target, setTarget] = useState("");
+  const { selectActivity } = ActivityStore();
 
   const handleActivityDelete = (
     e: SyntheticEvent<HTMLButtonElement>,
