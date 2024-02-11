@@ -8,23 +8,13 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { Activity } from "../../../interfaces";
 import { SyntheticEvent, useState } from "react";
 import { ActivityStore } from "../../../stores";
 
-interface Props {
-  activities: Activity[];
-  deleteActivity: (id: string) => void;
-  submitting: boolean;
-}
-
-export default function ActivityList({
-  activities,
-  deleteActivity,
-  submitting,
-}: Props) {
+export default function ActivityList() {
   const [target, setTarget] = useState("");
-  const { selectActivity } = ActivityStore();
+  const { activities, deleteActivity, loading, selectActivity } =
+    ActivityStore();
 
   const handleActivityDelete = (
     e: SyntheticEvent<HTMLButtonElement>,
@@ -69,7 +59,7 @@ export default function ActivityList({
                     onClick={(e) => handleActivityDelete(e, activity.id)}
                     variant="solid"
                     colorScheme="red"
-                    isLoading={submitting && target === activity.id}
+                    isLoading={loading && target === activity.id}
                     loadingText="Submitting"
                   >
                     Delete

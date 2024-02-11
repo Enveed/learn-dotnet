@@ -16,6 +16,7 @@ interface ActivityState {
   closeForm: () => void;
   createActivity: (activity: Activity) => void;
   updateActivity: (activity: Activity) => void;
+  deleteActivity: (id: string) => void;
 }
 
 export const ActivityStore = create<ActivityState>()((set, get) => ({
@@ -89,6 +90,19 @@ export const ActivityStore = create<ActivityState>()((set, get) => ({
         selectedActivity: activity,
         editMode: false,
       }));
+    } catch (e) {
+      console.log(e);
+    }
+    set({ loading: false });
+  },
+  deleteActivity: async (id: string) => {
+    set({ loading: true });
+    try {
+      await agent.Activities.delete(id);
+      set((state) => ({
+        activities: [...state.activities.filter((a) => a.id !== id)],
+      }));
+      if (get().selectedActivity?.id === id) get().cancelSelectedActivity();
     } catch (e) {
       console.log(e);
     }
