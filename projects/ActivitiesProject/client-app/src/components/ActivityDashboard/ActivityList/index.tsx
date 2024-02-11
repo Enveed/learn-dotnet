@@ -13,7 +13,7 @@ import { ActivityStore } from "../../../stores";
 
 export default function ActivityList() {
   const [target, setTarget] = useState("");
-  const { activities, deleteActivity, loading, selectActivity } =
+  const { getActivitiesByDate, deleteActivity, loading, selectActivity } =
     ActivityStore();
 
   const handleActivityDelete = (
@@ -26,7 +26,7 @@ export default function ActivityList() {
 
   return (
     <>
-      {activities.map((activity) => (
+      {getActivitiesByDate().map((activity) => (
         <Card overflow="hidden" variant="outline" key={activity.id}>
           <Stack flex="1">
             <CardBody pb={0}>

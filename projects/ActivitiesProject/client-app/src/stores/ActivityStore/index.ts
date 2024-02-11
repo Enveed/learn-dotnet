@@ -5,10 +5,12 @@ import { v4 as uuid } from "uuid";
 
 interface ActivityState {
   activities: Activity[];
+  activityRegistry: Map<string, Activity>;
   selectedActivity: Activity | undefined;
   editMode: boolean;
   loading: boolean;
   loadingInitial: boolean;
+  getActivitiesByDate: () => Activity[];
   loadActivities: () => void;
   selectActivity: (id: string) => void;
   cancelSelectedActivity: () => void;
@@ -21,19 +23,27 @@ interface ActivityState {
 
 export const ActivityStore = create<ActivityState>()((set, get) => ({
   activities: [],
+  activityRegistry: new Map(),
   selectedActivity: undefined,
   editMode: false,
   loading: false,
-  loadingInitial: false,
+  loadingInitial: true,
+  getActivitiesByDate: () => {
+    return Array.from(get().activityRegistry.values()).sort(
+      (a, b) => Date.parse(a.date) - Date.parse(b.date)
+    );
+  },
   loadActivities: async () => {
-    set({ loadingInitial: true });
     try {
       await new Promise((r) => setTimeout(r, 2000));
       const activities = await agent.Activities.list();
       activities.forEach((activity) => {
         activity.date = activity.date.split("T")[0];
         set((state) => ({
-          activities: [...state.activities, activity],
+          activityRegistry: new Map(state.activityRegistry).set(
+            activity.id,
+            activity
+          ),
         }));
       });
       set({ loadingInitial: false });
@@ -44,7 +54,7 @@ export const ActivityStore = create<ActivityState>()((set, get) => ({
   },
   selectActivity: (id: string) => {
     set((state) => ({
-      selectedActivity: state.activities.find((a) => a.id === id),
+      selectedActivity: state.activityRegistry.get(id),
     }));
   },
   cancelSelectedActivity: () => {
@@ -69,7 +79,10 @@ export const ActivityStore = create<ActivityState>()((set, get) => ({
     try {
       await agent.Activities.create(activity);
       set((state) => ({
-        activities: [...state.activities, activity],
+        activityRegistry: new Map(state.activityRegistry).set(
+          activity.id,
+          activity
+        ),
         selectedActivity: activity,
         editMode: false,
       }));
@@ -83,10 +96,10 @@ export const ActivityStore = create<ActivityState>()((set, get) => ({
     try {
       await agent.Activities.update(activity);
       set((state) => ({
-        activities: [
-          ...state.activities.filter((a) => a.id !== activity.id),
-          activity,
-        ],
+        activityRegistry: new Map(state.activityRegistry).set(
+          activity.id,
+          activity
+        ),
         selectedActivity: activity,
         editMode: false,
       }));
@@ -99,9 +112,13 @@ export const ActivityStore = create<ActivityState>()((set, get) => ({
     set({ loading: true });
     try {
       await agent.Activities.delete(id);
-      set((state) => ({
-        activities: [...state.activities.filter((a) => a.id !== id)],
-      }));
+      set((state) => {
+        const tempActivityRegistry = new Map(state.activityRegistry);
+        tempActivityRegistry.delete(id);
+        return {
+          activityRegistry: tempActivityRegistry,
+        };
+      });
       if (get().selectedActivity?.id === id) get().cancelSelectedActivity();
     } catch (e) {
       console.log(e);
