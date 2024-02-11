@@ -7,14 +7,12 @@ import { ActivityStore } from "../../stores";
 
 interface Props {
   activities: Activity[];
-  createOrEdit: (activity: Activity) => void;
   deleteActivity: (id: string) => void;
   submitting: boolean;
 }
 
 export default function ActivityDashboard({
   activities,
-  createOrEdit,
   deleteActivity,
   submitting,
 }: Props) {
@@ -30,9 +28,7 @@ export default function ActivityDashboard({
       </GridItem>
       <GridItem colSpan={6}>
         {selectedActivity && !editMode && <ActivityDetails />}
-        {editMode && (
-          <ActivityForm createOrEdit={createOrEdit} submitting={submitting} />
-        )}
+        {editMode && <ActivityForm />}
       </GridItem>
     </Grid>
   );

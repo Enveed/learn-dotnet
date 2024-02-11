@@ -1,15 +1,15 @@
 import { Box, Button, Flex, Input, Textarea } from "@chakra-ui/react";
-import { Activity } from "../../../interfaces";
 import { ChangeEvent, useState } from "react";
 import { ActivityStore } from "../../../stores";
 
-interface Props {
-  createOrEdit: (activity: Activity) => void;
-  submitting: boolean;
-}
-
-export default function ActivityForm({ createOrEdit, submitting }: Props) {
-  const { selectedActivity, closeForm } = ActivityStore();
+export default function ActivityForm() {
+  const {
+    selectedActivity,
+    closeForm,
+    createActivity,
+    updateActivity,
+    loading,
+  } = ActivityStore();
   const initialState = selectedActivity ?? {
     id: "",
     title: "",
@@ -23,7 +23,7 @@ export default function ActivityForm({ createOrEdit, submitting }: Props) {
   const [activity, setActivity] = useState(initialState);
 
   const handleSubmit = () => {
-    createOrEdit(activity);
+    activity.id ? updateActivity(activity) : createActivity(activity);
   };
 
   const handleInputChange = (
@@ -85,7 +85,7 @@ export default function ActivityForm({ createOrEdit, submitting }: Props) {
         <Button
           colorScheme="blue"
           onClick={handleSubmit}
-          isLoading={submitting}
+          isLoading={loading}
           loadingText="Submitting"
         >
           Submit

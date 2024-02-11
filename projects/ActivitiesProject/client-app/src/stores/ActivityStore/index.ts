@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { Activity } from "../../interfaces";
 import agent from "../../services/AxiosService";
+import { v4 as uuid } from "uuid";
 
 interface ActivityState {
   activities: Activity[];
@@ -13,6 +14,8 @@ interface ActivityState {
   cancelSelectedActivity: () => void;
   openForm: (id?: string) => void;
   closeForm: () => void;
+  createActivity: (activity: Activity) => void;
+  updateActivity: (activity: Activity) => void;
 }
 
 export const ActivityStore = create<ActivityState>()((set, get) => ({
@@ -58,5 +61,37 @@ export const ActivityStore = create<ActivityState>()((set, get) => ({
     set(() => ({
       editMode: false,
     }));
+  },
+  createActivity: async (activity: Activity) => {
+    set({ loading: true });
+    activity.id = uuid();
+    try {
+      await agent.Activities.create(activity);
+      set((state) => ({
+        activities: [...state.activities, activity],
+        selectedActivity: activity,
+        editMode: false,
+      }));
+    } catch (e) {
+      console.log(e);
+    }
+    set({ loading: false });
+  },
+  updateActivity: async (activity: Activity) => {
+    set({ loading: true });
+    try {
+      await agent.Activities.update(activity);
+      set((state) => ({
+        activities: [
+          ...state.activities.filter((a) => a.id !== activity.id),
+          activity,
+        ],
+        selectedActivity: activity,
+        editMode: false,
+      }));
+    } catch (e) {
+      console.log(e);
+    }
+    set({ loading: false });
   },
 }));
