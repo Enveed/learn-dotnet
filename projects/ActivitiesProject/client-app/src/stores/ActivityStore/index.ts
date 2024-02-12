@@ -12,13 +12,11 @@ interface ActivityState {
   loadingInitial: boolean;
   getActivitiesByDate: () => Activity[];
   loadActivities: () => void;
-  selectActivity: (id: string) => void;
-  cancelSelectedActivity: () => void;
-  openForm: (id?: string) => void;
-  closeForm: () => void;
+  loadActivity: (id: string) => void;
   createActivity: (activity: Activity) => void;
   updateActivity: (activity: Activity) => void;
   deleteActivity: (id: string) => void;
+  setActivity: (activity: Activity) => void;
 }
 
 export const ActivityStore = create<ActivityState>()((set, get) => ({
@@ -37,40 +35,41 @@ export const ActivityStore = create<ActivityState>()((set, get) => ({
     try {
       await new Promise((r) => setTimeout(r, 2000));
       const activities = await agent.Activities.list();
-      activities.forEach((activity) => {
-        activity.date = activity.date.split("T")[0];
-        set((state) => ({
-          activityRegistry: new Map(state.activityRegistry).set(
-            activity.id,
-            activity
-          ),
-        }));
-      });
+      activities.forEach((activity) => get().setActivity(activity));
       set({ loadingInitial: false });
     } catch (e) {
       console.log(e);
       set({ loadingInitial: false });
     }
   },
-  selectActivity: (id: string) => {
+  loadActivity: async (id: string) => {
+    let activity = get().activityRegistry.get(id);
+    if (activity)
+      set({
+        selectedActivity: activity,
+      });
+    else {
+      set({
+        loadingInitial: true,
+      });
+      try {
+        activity = await agent.Activities.details(id);
+        get().setActivity(activity);
+      } catch (e) {
+        console.log(e);
+      }
+      set({
+        loadingInitial: false,
+      });
+    }
+  },
+  setActivity: (activity: Activity) => {
+    activity.date = activity.date.split("T")[0];
     set((state) => ({
-      selectedActivity: state.activityRegistry.get(id),
-    }));
-  },
-  cancelSelectedActivity: () => {
-    set(() => ({
-      selectedActivity: undefined,
-    }));
-  },
-  openForm: (id?: string) => {
-    id ? get().selectActivity(id) : get().cancelSelectedActivity();
-    set(() => ({
-      editMode: true,
-    }));
-  },
-  closeForm: () => {
-    set(() => ({
-      editMode: false,
+      activityRegistry: new Map(state.activityRegistry).set(
+        activity.id,
+        activity
+      ),
     }));
   },
   createActivity: async (activity: Activity) => {
@@ -119,7 +118,6 @@ export const ActivityStore = create<ActivityState>()((set, get) => ({
           activityRegistry: tempActivityRegistry,
         };
       });
-      if (get().selectedActivity?.id === id) get().cancelSelectedActivity();
     } catch (e) {
       console.log(e);
     }

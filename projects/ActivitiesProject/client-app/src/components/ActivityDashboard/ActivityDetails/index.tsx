@@ -12,11 +12,7 @@ import {
 import { ActivityStore } from "../../../stores";
 
 export default function ActivityDetails() {
-  const {
-    selectedActivity: activity,
-    openForm,
-    cancelSelectedActivity,
-  } = ActivityStore();
+  const { selectedActivity: activity } = ActivityStore();
 
   if (!activity) return;
   return (
@@ -43,20 +39,10 @@ export default function ActivityDetails() {
 
       <CardFooter>
         <ButtonGroup spacing="2" flex="1">
-          <Button
-            variant="outline"
-            colorScheme="blue"
-            w="50%"
-            onClick={() => openForm(activity.id)}
-          >
+          <Button variant="outline" colorScheme="blue" w="50%">
             Edit
           </Button>
-          <Button
-            variant="outline"
-            colorScheme="blackAlpha"
-            w="50%"
-            onClick={cancelSelectedActivity}
-          >
+          <Button variant="outline" colorScheme="blackAlpha" w="50%">
             Cancel
           </Button>
         </ButtonGroup>

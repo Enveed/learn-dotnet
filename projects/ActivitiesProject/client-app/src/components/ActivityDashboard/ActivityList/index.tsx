@@ -10,11 +10,11 @@ import {
 } from "@chakra-ui/react";
 import { SyntheticEvent, useState } from "react";
 import { ActivityStore } from "../../../stores";
+import { Link } from "react-router-dom";
 
 export default function ActivityList() {
   const [target, setTarget] = useState("");
-  const { getActivitiesByDate, deleteActivity, loading, selectActivity } =
-    ActivityStore();
+  const { getActivitiesByDate, deleteActivity, loading } = ActivityStore();
 
   const handleActivityDelete = (
     e: SyntheticEvent<HTMLButtonElement>,
@@ -65,7 +65,8 @@ export default function ActivityList() {
                     Delete
                   </Button>
                   <Button
-                    onClick={() => selectActivity(activity.id)}
+                    as={Link}
+                    to={`/activities/${activity.id}`}
                     variant="solid"
                     colorScheme="blue"
                   >

@@ -3,13 +3,8 @@ import { ChangeEvent, useState } from "react";
 import { ActivityStore } from "../../../stores";
 
 export default function ActivityForm() {
-  const {
-    selectedActivity,
-    closeForm,
-    createActivity,
-    updateActivity,
-    loading,
-  } = ActivityStore();
+  const { selectedActivity, createActivity, updateActivity, loading } =
+    ActivityStore();
   const initialState = selectedActivity ?? {
     id: "",
     title: "",
@@ -79,9 +74,7 @@ export default function ActivityForm() {
         onChange={handleInputChange}
       />
       <Flex justifyContent="flex-end" gap={2}>
-        <Button colorScheme="red" onClick={closeForm}>
-          Cancel
-        </Button>
+        <Button colorScheme="red">Cancel</Button>
         <Button
           colorScheme="blue"
           onClick={handleSubmit}
