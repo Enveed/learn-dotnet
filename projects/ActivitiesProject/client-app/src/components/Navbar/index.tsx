@@ -4,14 +4,13 @@ import {
   Flex,
   Heading,
   Image,
+  Link as ChakraLink,
   Stack,
-  Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { ActivityStore } from "../../stores";
+import { NavLink } from "react-router-dom";
 
 export default function Navbar() {
-  const { openForm } = ActivityStore();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const handleToggle = () => (isOpen ? onClose() : onOpen());
 
@@ -35,7 +34,7 @@ export default function Navbar() {
         maxWidth="950px"
         flex="1"
       >
-        <Flex align="center" mr={5}>
+        <Flex as={NavLink} to="/" align="center" mr={5}>
           <Image src="/assets/logo.png" alt="Logo" boxSize="50px" />
           <Heading as="h1" size="lg" letterSpacing={"tighter"}>
             Activities
@@ -55,7 +54,9 @@ export default function Navbar() {
           flexGrow={1}
           mt={{ base: 4, md: 0 }}
         >
-          <Text>Activities</Text>
+          <ChakraLink as={NavLink} to="/activities">
+            Activities
+          </ChakraLink>
         </Stack>
 
         <Box
@@ -63,10 +64,11 @@ export default function Navbar() {
           mt={{ base: 4, md: 0 }}
         >
           <Button
+            as={NavLink}
+            to="/create-activity"
             variant="outline"
             color="white"
             _hover={{ bg: "teal.700", borderColor: "teal.700" }}
-            onClick={() => openForm()}
           >
             Create Activity
           </Button>
