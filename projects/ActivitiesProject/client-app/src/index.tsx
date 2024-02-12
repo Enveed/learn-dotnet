@@ -1,9 +1,9 @@
 import ReactDOM from "react-dom/client";
-import { Layout } from "./components";
 import { ChakraProvider } from "@chakra-ui/react";
+import Navigation from "./navigation";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <ChakraProvider>
-    <Layout />
+    <Navigation />
   </ChakraProvider>
 );
