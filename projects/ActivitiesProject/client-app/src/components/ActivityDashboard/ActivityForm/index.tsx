@@ -1,7 +1,7 @@
 import { Box, Button, Flex, Input, Textarea } from "@chakra-ui/react";
 import { ChangeEvent, useEffect, useState } from "react";
 import { ActivityStore } from "../../../stores";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Activity } from "../../../interfaces";
 import { LoadingComponent } from "../..";
 import { v4 as uuid } from "uuid";
@@ -101,7 +101,9 @@ export default function ActivityForm() {
         onChange={handleInputChange}
       />
       <Flex justifyContent="flex-end" gap={2}>
-        <Button colorScheme="red">Cancel</Button>
+        <Button as={Link} to={"/activities"} colorScheme="red">
+          Cancel
+        </Button>
         <Button
           colorScheme="blue"
           onClick={handleSubmit}

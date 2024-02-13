@@ -5,10 +5,10 @@ import { useEffect } from "react";
 import { LoadingComponent } from "..";
 
 export default function ActivityDashboard() {
-  const { loadActivities, loadingInitial } = ActivityStore();
+  const { activityRegistry, loadActivities, loadingInitial } = ActivityStore();
 
   useEffect(() => {
-    loadActivities();
+    if (activityRegistry.size <= 1) loadActivities();
   }, []);
 
   if (loadingInitial) return <LoadingComponent content="Loading app" />;
