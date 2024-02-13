@@ -10,7 +10,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { ActivityStore } from "../../../stores";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { LoadingComponent } from "../..";
 
@@ -51,10 +51,22 @@ export default function ActivityDetails() {
 
       <CardFooter>
         <ButtonGroup spacing="2" flex="1">
-          <Button variant="outline" colorScheme="blue" w="50%">
+          <Button
+            as={Link}
+            to={`/manage/${activity.id}`}
+            variant="outline"
+            colorScheme="blue"
+            w="50%"
+          >
             Edit
           </Button>
-          <Button variant="outline" colorScheme="blackAlpha" w="50%">
+          <Button
+            as={Link}
+            to={`/activities`}
+            variant="outline"
+            colorScheme="blackAlpha"
+            w="50%"
+          >
             Cancel
           </Button>
         </ButtonGroup>

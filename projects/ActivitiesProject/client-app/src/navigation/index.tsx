@@ -13,6 +13,7 @@ export default function Navigation() {
           <Route path="activities" element={<ActivityDashboard />} />
           <Route path="activities/:id" element={<ActivityDetails />} />
           <Route path="create-activity" element={<ActivityForm />} />
+          <Route path="manage/:id" element={<ActivityForm />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,14 +1,11 @@
 import { Grid, GridItem } from "@chakra-ui/react";
 import ActivityList from "./ActivityList";
-import ActivityDetails from "./ActivityDetails";
-import ActivityForm from "./ActivityForm";
 import { ActivityStore } from "../../stores";
 import { useEffect } from "react";
 import { LoadingComponent } from "..";
 
 export default function ActivityDashboard() {
-  const { loadActivities, loadingInitial, selectedActivity, editMode } =
-    ActivityStore();
+  const { loadActivities, loadingInitial } = ActivityStore();
 
   useEffect(() => {
     loadActivities();
@@ -21,8 +18,7 @@ export default function ActivityDashboard() {
         <ActivityList />
       </GridItem>
       <GridItem colSpan={6}>
-        {selectedActivity && !editMode && <ActivityDetails />}
-        {editMode && <ActivityForm />}
+        <h2>Activity Filters</h2>
       </GridItem>
     </Grid>
   );

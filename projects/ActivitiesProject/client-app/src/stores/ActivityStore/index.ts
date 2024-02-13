@@ -12,7 +12,7 @@ interface ActivityState {
   loadingInitial: boolean;
   getActivitiesByDate: () => Activity[];
   loadActivities: () => void;
-  loadActivity: (id: string) => void;
+  loadActivity: (id: string) => Promise<Activity | undefined>;
   createActivity: (activity: Activity) => void;
   updateActivity: (activity: Activity) => void;
   deleteActivity: (id: string) => void;
@@ -44,11 +44,11 @@ export const ActivityStore = create<ActivityState>()((set, get) => ({
   },
   loadActivity: async (id: string) => {
     let activity = get().activityRegistry.get(id);
-    if (activity)
+    if (activity) {
       set({
         selectedActivity: activity,
       });
-    else {
+    } else {
       set({
         loadingInitial: true,
       });
@@ -65,6 +65,7 @@ export const ActivityStore = create<ActivityState>()((set, get) => ({
         loadingInitial: false,
       });
     }
+    return activity;
   },
   setActivity: (activity: Activity) => {
     activity.date = activity.date.split("T")[0];

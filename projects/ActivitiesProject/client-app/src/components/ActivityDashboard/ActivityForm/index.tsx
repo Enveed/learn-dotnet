@@ -1,11 +1,20 @@
 import { Box, Button, Flex, Input, Textarea } from "@chakra-ui/react";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { ActivityStore } from "../../../stores";
+import { useParams } from "react-router-dom";
+import { Activity } from "../../../interfaces";
+import { LoadingComponent } from "../..";
 
 export default function ActivityForm() {
-  const { selectedActivity, createActivity, updateActivity, loading } =
-    ActivityStore();
-  const initialState = selectedActivity ?? {
+  const {
+    createActivity,
+    updateActivity,
+    loading,
+    loadActivity,
+    loadingInitial,
+  } = ActivityStore();
+  const { id } = useParams();
+  const [activity, setActivity] = useState<Activity>({
     id: "",
     title: "",
     date: "",
@@ -13,9 +22,14 @@ export default function ActivityForm() {
     category: "",
     city: "",
     venue: "",
-  };
+  });
 
-  const [activity, setActivity] = useState(initialState);
+  useEffect(() => {
+    if (id)
+      loadActivity(id).then((activity) => {
+        setActivity(activity!);
+      });
+  }, [id, loadActivity]);
 
   const handleSubmit = () => {
     activity.id ? updateActivity(activity) : createActivity(activity);
@@ -27,6 +41,8 @@ export default function ActivityForm() {
     const { name, value } = event.target;
     setActivity({ ...activity, [name]: value });
   };
+
+  if (loadingInitial) return <LoadingComponent content="Loading activity..." />;
 
   return (
     <Box bgColor="white" p="2" my="2">
