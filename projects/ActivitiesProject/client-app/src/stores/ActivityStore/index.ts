@@ -13,8 +13,8 @@ interface ActivityState {
   getActivitiesByDate: () => Activity[];
   loadActivities: () => void;
   loadActivity: (id: string) => Promise<Activity | undefined>;
-  createActivity: (activity: Activity) => void;
-  updateActivity: (activity: Activity) => void;
+  createActivity: (activity: Activity) => Promise<Activity | undefined>;
+  updateActivity: (activity: Activity) => Promise<Activity | undefined>;
   deleteActivity: (id: string) => void;
   setActivity: (activity: Activity) => void;
 }
@@ -25,7 +25,7 @@ export const ActivityStore = create<ActivityState>()((set, get) => ({
   selectedActivity: undefined,
   editMode: false,
   loading: false,
-  loadingInitial: true,
+  loadingInitial: false,
   getActivitiesByDate: () => {
     return Array.from(get().activityRegistry.values()).sort(
       (a, b) => Date.parse(a.date) - Date.parse(b.date)
@@ -89,10 +89,12 @@ export const ActivityStore = create<ActivityState>()((set, get) => ({
         selectedActivity: activity,
         editMode: false,
       }));
+      set({ loading: false });
+      return activity;
     } catch (e) {
       console.log(e);
+      set({ loading: false });
     }
-    set({ loading: false });
   },
   updateActivity: async (activity: Activity) => {
     set({ loading: true });
@@ -106,10 +108,12 @@ export const ActivityStore = create<ActivityState>()((set, get) => ({
         selectedActivity: activity,
         editMode: false,
       }));
+      set({ loading: false });
+      return activity;
     } catch (e) {
+      set({ loading: false });
       console.log(e);
     }
-    set({ loading: false });
   },
   deleteActivity: async (id: string) => {
     set({ loading: true });

@@ -1,9 +1,10 @@
 import { Box, Button, Flex, Input, Textarea } from "@chakra-ui/react";
 import { ChangeEvent, useEffect, useState } from "react";
 import { ActivityStore } from "../../../stores";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Activity } from "../../../interfaces";
 import { LoadingComponent } from "../..";
+import { v4 as uuid } from "uuid";
 
 export default function ActivityForm() {
   const {
@@ -13,6 +14,7 @@ export default function ActivityForm() {
     loadActivity,
     loadingInitial,
   } = ActivityStore();
+  const navigate = useNavigate();
   const { id } = useParams();
   const [activity, setActivity] = useState<Activity>({
     id: "",
@@ -32,7 +34,16 @@ export default function ActivityForm() {
   }, [id, loadActivity]);
 
   const handleSubmit = () => {
-    activity.id ? updateActivity(activity) : createActivity(activity);
+    if (!activity.id) {
+      activity.id = uuid();
+      createActivity(activity).then(() =>
+        navigate(`/activities/${activity.id}`)
+      );
+    } else {
+      updateActivity(activity).then(() =>
+        navigate(`/activities/${activity.id}`)
+      );
+    }
   };
 
   const handleInputChange = (
