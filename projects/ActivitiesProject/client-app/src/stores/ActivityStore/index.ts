@@ -32,15 +32,15 @@ export const ActivityStore = create<ActivityState>()((set, get) => ({
     );
   },
   loadActivities: async () => {
+    set({ loadingInitial: true });
     try {
       await new Promise((r) => setTimeout(r, 2000));
       const activities = await agent.Activities.list();
       activities.forEach((activity) => get().setActivity(activity));
-      set({ loadingInitial: false });
     } catch (e) {
       console.log(e);
-      set({ loadingInitial: false });
     }
+    set({ loadingInitial: false });
   },
   loadActivity: async (id: string) => {
     let activity = get().activityRegistry.get(id);
@@ -55,6 +55,9 @@ export const ActivityStore = create<ActivityState>()((set, get) => ({
       try {
         activity = await agent.Activities.details(id);
         get().setActivity(activity);
+        set({
+          selectedActivity: activity,
+        });
       } catch (e) {
         console.log(e);
       }

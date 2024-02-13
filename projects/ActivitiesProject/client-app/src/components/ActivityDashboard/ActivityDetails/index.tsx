@@ -10,11 +10,23 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { ActivityStore } from "../../../stores";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { LoadingComponent } from "../..";
 
 export default function ActivityDetails() {
-  const { selectedActivity: activity } = ActivityStore();
+  const {
+    loadActivity,
+    loadingInitial,
+    selectedActivity: activity,
+  } = ActivityStore();
+  const { id } = useParams();
 
-  if (!activity) return;
+  useEffect(() => {
+    if (id) loadActivity(id);
+  }, [id, loadActivity]);
+
+  if (loadingInitial || !activity) return <LoadingComponent />;
   return (
     <Card maxW="sm">
       <CardBody p={0}>
