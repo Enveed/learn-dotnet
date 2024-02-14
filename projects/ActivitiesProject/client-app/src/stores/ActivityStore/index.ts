@@ -17,6 +17,7 @@ interface ActivityState {
   updateActivity: (activity: Activity) => Promise<Activity | undefined>;
   deleteActivity: (id: string) => void;
   setActivity: (activity: Activity) => void;
+  getGroupedActivities: () => [string, Activity[]][];
 }
 
 export const ActivityStore = create<ActivityState>()((set, get) => ({
@@ -29,6 +30,19 @@ export const ActivityStore = create<ActivityState>()((set, get) => ({
   getActivitiesByDate: () => {
     return Array.from(get().activityRegistry.values()).sort(
       (a, b) => Date.parse(a.date) - Date.parse(b.date)
+    );
+  },
+  getGroupedActivities: () => {
+    return Object.entries(
+      get()
+        .getActivitiesByDate()
+        .reduce((activities, activity) => {
+          const date = activity.date;
+          activities[date] = activities[date]
+            ? [...activities[date], activity]
+            : [activity];
+          return activities;
+        }, {} as { [key: string]: Activity[] })
     );
   },
   loadActivities: async () => {
