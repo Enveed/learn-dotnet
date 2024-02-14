@@ -25,7 +25,7 @@ export default function ActivityDetails() {
     <Grid templateColumns="repeat(16, 1fr)" gap={6}>
       <GridItem colSpan={10}>
         <ActivityDetailHeader activity={activity} />
-        <ActivityDetailInfo />
+        <ActivityDetailInfo activity={activity} />
         <ActivityDetailChat />
       </GridItem>
       <GridItem colSpan={6}>
