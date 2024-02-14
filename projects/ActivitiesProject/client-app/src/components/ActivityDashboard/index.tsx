@@ -3,6 +3,7 @@ import { ActivityList } from "..";
 import { ActivityStore } from "../../stores";
 import { useEffect } from "react";
 import { LoadingComponent } from "..";
+import ActivityFilters from "./ActivityFilters";
 
 export default function ActivityDashboard() {
   const { activityRegistry, loadActivities, loadingInitial } = ActivityStore();
@@ -18,7 +19,7 @@ export default function ActivityDashboard() {
         <ActivityList />
       </GridItem>
       <GridItem colSpan={6}>
-        <h2>Activity Filters</h2>
+        <ActivityFilters />
       </GridItem>
     </Grid>
   );
