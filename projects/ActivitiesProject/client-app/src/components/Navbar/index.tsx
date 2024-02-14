@@ -36,7 +36,7 @@ export default function Navbar() {
       >
         <Flex as={NavLink} to="/" align="center" mr={5}>
           <Image src="/assets/logo.png" alt="Logo" boxSize="50px" />
-          <Heading as="h1" size="lg" letterSpacing={"tighter"}>
+          <Heading as="h1" size="lg" letterSpacing={"tighter"} my={0}>
             Activities
           </Heading>
         </Flex>

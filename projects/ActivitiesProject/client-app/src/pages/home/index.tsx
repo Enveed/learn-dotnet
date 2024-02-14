@@ -1,15 +1,23 @@
-import { Container, Heading } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import { Button, Container, Header, Image, Segment } from "semantic-ui-react";
 
 export default function Home() {
   return (
-    <Container maxW="container.sm">
-      <Heading as="h1" size="lg" letterSpacing={"tighter"}>
-        Home page
-      </Heading>
-      <Heading as="h3" size="sm" letterSpacing={"tighter"}>
-        Go to <Link to="/activities">Activities</Link>
-      </Heading>
-    </Container>
+    <Segment inverted textAlign="center" vertical className="masthead">
+      <Container text>
+        <Header as="h1" inverted>
+          <Image
+            size="massive"
+            src="/assets/logo.png"
+            alt="logo"
+            style={{ marginBottom: 12 }}
+          />
+        </Header>
+        <Header as="h2" inverted content="Welcome to Activities" />
+        <Button as={Link} to="/activities" size="huge" inverted>
+          Take me to the Activities!
+        </Button>
+      </Container>
+    </Segment>
   );
 }
