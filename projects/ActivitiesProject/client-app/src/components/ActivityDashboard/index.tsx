@@ -1,5 +1,5 @@
 import { Grid, GridItem } from "@chakra-ui/react";
-import ActivityList from "./ActivityList";
+import { ActivityList } from "..";
 import { ActivityStore } from "../../stores";
 import { useEffect } from "react";
 import { LoadingComponent } from "..";

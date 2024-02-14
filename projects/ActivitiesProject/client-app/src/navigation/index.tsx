@@ -1,7 +1,10 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { ActivityDashboard, Layout } from "../components";
-import ActivityForm from "../components/ActivityDashboard/ActivityForm";
-import ActivityDetails from "../components/ActivityDashboard/ActivityDetails";
+import {
+  ActivityDashboard,
+  Layout,
+  ActivityForm,
+  ActivityDetails,
+} from "../components";
 
 export default function Navigation() {
   return (

@@ -1,9 +1,9 @@
 import { Box, Button, Flex, Input, Textarea } from "@chakra-ui/react";
 import { ChangeEvent, useEffect, useState } from "react";
-import { ActivityStore } from "../../../stores";
+import { ActivityStore } from "../../stores";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Activity } from "../../../interfaces";
-import { LoadingComponent } from "../..";
+import { Activity } from "../../interfaces";
+import { LoadingComponent } from "..";
 import { v4 as uuid } from "uuid";
 
 export default function ActivityForm() {

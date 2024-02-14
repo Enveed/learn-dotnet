@@ -9,10 +9,10 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { ActivityStore } from "../../../stores";
+import { ActivityStore } from "../../stores";
 import { Link, useParams } from "react-router-dom";
 import { useEffect } from "react";
-import { LoadingComponent } from "../..";
+import { LoadingComponent } from "..";
 
 export default function ActivityDetails() {
   const {

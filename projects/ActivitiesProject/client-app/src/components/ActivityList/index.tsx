@@ -9,7 +9,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { SyntheticEvent, useState } from "react";
-import { ActivityStore } from "../../../stores";
+import { ActivityStore } from "../../stores";
 import { Link } from "react-router-dom";
 
 export default function ActivityList() {
