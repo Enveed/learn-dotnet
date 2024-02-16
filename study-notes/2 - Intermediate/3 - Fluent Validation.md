@@ -80,5 +80,5 @@ namespace Application.Activities
 ```
 ## References
 
-#dotnet #validation #intermediate #clean-architecture #cqrs
+#dotnet #validation #intermediate
 

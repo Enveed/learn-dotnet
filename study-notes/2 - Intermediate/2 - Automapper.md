@@ -63,5 +63,5 @@ namespace Application.Activities
 
 ## References
 
-#dotnet #automapper #intermediate #clean-architecture #cqrs
+#dotnet #automapper #intermediate 
 

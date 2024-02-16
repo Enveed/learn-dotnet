@@ -20,7 +20,7 @@ namespace Application.Core
 * Then, we can use the class in our command/query handler:
 ``` c#
 // Application/Activities/Details.cs
-
+// Query Handler
 using Application.Core;
 using Domain;
 using MediatR;
@@ -49,6 +49,54 @@ namespace Application.Activities
 }
 ```
 
+``` c#
+// Application/Activities/Details.cs
+// Command Handler
+using Application.Core;
+using AutoMapper;
+using Domain;
+using FluentValidation;
+using MediatR;
+using Persistence;
+
+namespace Application.Activities
+{
+    public class Edit
+    {
+        public class Command : IRequest<Result<Unit>>
+        {
+            public Activity Activity { get; set; }
+        }
+  
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(x => x.Activity).SetValidator(new ActivityValidator());
+            }
+        }
+  
+        public class Handler(DataContext context, IMapper mapper) : IRequestHandler<Command, Result<Unit>>
+        {
+            private readonly DataContext _context = context;
+            private readonly IMapper _mapper = mapper;
+  
+            public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
+            {
+                var activity = await _context.Activities.FindAsync(request.Activity.Id);
+                if (activity == null) return null;
+                
+                _mapper.Map(request.Activity, activity);
+                
+                var result = await _context.SaveChangesAsync() > 0;
+                if (!result) return Result<Unit>.Failure("Failed to update activity");
+                return Result<Unit>.Success(Unit.Value);
+            }
+        }
+    }
+}
+```
+
 * To properly handle response status code and response body, we need to: 
 ``` c#
 // API/Controllers/ActivitiesController.cs
@@ -65,6 +113,14 @@ public class ActivitiesController() : BaseApiController
     public async Task<IActionResult> GetActivity(Guid id)
     {
         return HandleResult(await Mediator.Send(new Details.Query { Id = id }));
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> EditActivity(Guid id, Activity activity)
+    {
+        activity.Id = id;
+        
+        return HandleResult(await Mediator.Send(new Edit.Command { Activity = activity }));
     }
 }
 ```
@@ -89,6 +145,7 @@ public class BaseApiController : ControllerBase
 
     protected ActionResult HandleResult<T>(Result<T> result)
     {
+        if (result == null) return NotFound();
         if (result.IsSuccess && result.Value != null)
             return Ok(result.Value);
         if (result.IsSuccess && result.Value == null)
@@ -100,5 +157,5 @@ public class BaseApiController : ControllerBase
 
 ## References
 
-#dotnet #error-handling #intermediate #clean-architecture #cqrs
+#dotnet #error-handling #intermediate 
 
