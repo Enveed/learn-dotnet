@@ -48,7 +48,6 @@ export const ActivityStore = create<ActivityState>()((set, get) => ({
   loadActivities: async () => {
     set({ loadingInitial: true });
     try {
-      await new Promise((r) => setTimeout(r, 2000));
       const activities = await agent.Activities.list();
       activities.forEach((activity) => get().setActivity(activity));
     } catch (e) {

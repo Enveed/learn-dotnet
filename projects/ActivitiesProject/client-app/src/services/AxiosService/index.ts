@@ -1,11 +1,40 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { Activity } from "../../interfaces";
+import { toast } from "react-toastify";
+import { router } from "../../routes";
 
 axios.defaults.baseURL = "http://localhost:5000/api";
 
 const responseBody = function <T>(response: AxiosResponse<T>) {
   return response.data;
 };
+
+axios.interceptors.response.use(
+  async (response) => {
+    return response;
+  },
+  (error: AxiosError) => {
+    const { status } = error.response!;
+    switch (status) {
+      case 400:
+        toast.error("Bad Request");
+        break;
+      case 401:
+        toast.error("Unauthorized");
+        break;
+      case 403:
+        toast.error("Forbidden Access");
+        break;
+      case 404:
+        router.navigate("/not-found");
+        break;
+      case 500:
+        toast.error("Server Error");
+        break;
+    }
+    return Promise.reject(error);
+  }
+);
 
 const requests = {
   get: <T>(url: string) => axios.get<T>(url).then(responseBody),
