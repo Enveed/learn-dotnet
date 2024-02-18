@@ -19,7 +19,7 @@ export const routes: RouteObject[] = [
       { path: "manage/:id", element: <ActivityForm key="manage" /> },
       { path: "errors", element: <TestErrors /> },
       { path: "not-found", element: <NotFound /> },
-      { path: "activities", element: <Navigate replace to="/not-found" /> },
+      { path: "*", element: <Navigate replace to="/not-found" /> },
     ],
   },
 ];
