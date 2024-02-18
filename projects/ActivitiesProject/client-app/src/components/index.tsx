@@ -7,6 +7,7 @@ import ActivityForm from "./ActivityForm";
 import LoadingComponent from "./LoadingComponent";
 import TestErrors from "./TestError";
 import NotFound from "./NotFound";
+import ServerError from "./ServerError";
 
 export {
   ActivityDashboard,
@@ -18,4 +19,5 @@ export {
   Navbar,
   TestErrors,
   NotFound,
+  ServerError,
 };

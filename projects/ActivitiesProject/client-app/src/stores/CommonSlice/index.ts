@@ -7,4 +7,11 @@ export const createCommonSlice: StateCreator<
   [],
   [],
   CommonSlice
-> = (set, get) => ({});
+> = (set, get) => ({
+  error: null,
+  setServerError: (error) => {
+    set({
+      error: error,
+    });
+  },
+});
