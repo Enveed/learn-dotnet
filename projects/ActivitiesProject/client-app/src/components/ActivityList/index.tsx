@@ -1,10 +1,10 @@
 import { Fragment } from "react";
-import { ActivityStore } from "../../stores";
+import { useBoundStore } from "../../stores";
 import ActivityListItem from "./ActivityListItem";
 import { Heading } from "@chakra-ui/react";
 
 export default function ActivityList() {
-  const { getGroupedActivities } = ActivityStore();
+  const { getGroupedActivities } = useBoundStore();
 
   return (
     <>

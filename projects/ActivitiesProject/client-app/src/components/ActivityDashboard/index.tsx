@@ -1,12 +1,12 @@
 import { Grid, GridItem } from "@chakra-ui/react";
 import { ActivityList } from "..";
-import { ActivityStore } from "../../stores";
 import { useEffect } from "react";
 import { LoadingComponent } from "..";
 import ActivityFilters from "./ActivityFilters";
+import { useBoundStore } from "../../stores";
 
 export default function ActivityDashboard() {
-  const { activityRegistry, loadActivities, loadingInitial } = ActivityStore();
+  const { activityRegistry, loadActivities, loadingInitial } = useBoundStore();
 
   useEffect(() => {
     if (activityRegistry.size <= 1) loadActivities();

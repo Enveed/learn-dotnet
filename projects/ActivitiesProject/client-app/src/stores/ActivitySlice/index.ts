@@ -1,26 +1,16 @@
-import { create } from "zustand";
+import { StateCreator } from "zustand";
 import { Activity } from "../../interfaces";
 import agent from "../../services/AxiosService";
 import { v4 as uuid } from "uuid";
+import { ActivitySlice } from "./index.interface";
+import { CommonSlice } from "../CommonSlice/index.interface";
 
-interface ActivityState {
-  activities: Activity[];
-  activityRegistry: Map<string, Activity>;
-  selectedActivity: Activity | undefined;
-  editMode: boolean;
-  loading: boolean;
-  loadingInitial: boolean;
-  getActivitiesByDate: () => Activity[];
-  loadActivities: () => void;
-  loadActivity: (id: string) => Promise<Activity | undefined>;
-  createActivity: (activity: Activity) => Promise<Activity | undefined>;
-  updateActivity: (activity: Activity) => Promise<Activity | undefined>;
-  deleteActivity: (id: string) => void;
-  setActivity: (activity: Activity) => void;
-  getGroupedActivities: () => [string, Activity[]][];
-}
-
-export const ActivityStore = create<ActivityState>()((set, get) => ({
+export const createActivitySlice: StateCreator<
+  ActivitySlice & CommonSlice,
+  [],
+  [],
+  ActivitySlice
+> = (set, get) => ({
   activities: [],
   activityRegistry: new Map(),
   selectedActivity: undefined,
@@ -144,4 +134,4 @@ export const ActivityStore = create<ActivityState>()((set, get) => ({
     }
     set({ loading: false });
   },
-}));
+});

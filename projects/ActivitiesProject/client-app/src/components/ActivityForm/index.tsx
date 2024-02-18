@@ -1,6 +1,6 @@
 import { Box, Button, Flex, Input, Textarea } from "@chakra-ui/react";
 import { ChangeEvent, useEffect, useState } from "react";
-import { ActivityStore } from "../../stores";
+import { useBoundStore } from "../../stores";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Activity } from "../../interfaces";
 import { LoadingComponent } from "..";
@@ -13,7 +13,7 @@ export default function ActivityForm() {
     loading,
     loadActivity,
     loadingInitial,
-  } = ActivityStore();
+  } = useBoundStore();
   const navigate = useNavigate();
   const { id } = useParams();
   const [activity, setActivity] = useState<Activity>({

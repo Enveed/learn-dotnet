@@ -1,5 +1,5 @@
 import { Grid, GridItem } from "@chakra-ui/react";
-import { ActivityStore } from "../../stores";
+import { useBoundStore } from "../../stores";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { LoadingComponent } from "..";
@@ -13,7 +13,7 @@ export default function ActivityDetails() {
     loadActivity,
     loadingInitial,
     selectedActivity: activity,
-  } = ActivityStore();
+  } = useBoundStore();
   const { id } = useParams();
 
   useEffect(() => {
