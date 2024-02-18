@@ -5,6 +5,8 @@ import ActivityList from "./ActivityList";
 import ActivityDetails from "./ActivityDetails";
 import ActivityForm from "./ActivityForm";
 import LoadingComponent from "./LoadingComponent";
+import TestErrors from "./TestError";
+import NotFound from "./NotFound";
 
 export {
   ActivityDashboard,
@@ -14,4 +16,6 @@ export {
   Layout,
   LoadingComponent,
   Navbar,
+  TestErrors,
+  NotFound,
 };
