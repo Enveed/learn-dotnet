@@ -1,11 +1,20 @@
-import { Box, Button, Flex, Input, Textarea } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  Input,
+  Textarea,
+} from "@chakra-ui/react";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useBoundStore } from "../../stores";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Activity } from "../../interfaces";
 import { LoadingComponent } from "..";
 import { v4 as uuid } from "uuid";
-import { Formik } from "formik";
+import { Field, Form, Formik } from "formik";
+import * as Yup from "yup";
 
 export default function ActivityForm() {
   const {
@@ -25,6 +34,10 @@ export default function ActivityForm() {
     category: "",
     city: "",
     venue: "",
+  });
+
+  const validationSchema = Yup.object({
+    title: Yup.string().required("The activity title is required!"),
   });
 
   useEffect(() => {
@@ -59,69 +72,57 @@ export default function ActivityForm() {
   return (
     <Box bgColor="white" p="2" my="2">
       <Formik
+        validationSchema={validationSchema}
         enableReinitialize
         initialValues={activity}
         onSubmit={(values) => console.log(values)}
       >
-        {({ values: activity, handleChange, handleSubmit }) => (
-          <>
-            <Input
-              placeholder="Title"
-              my={2}
-              value={activity.title}
-              name="title"
-              onChange={handleChange}
-            />
-            <Textarea
-              placeholder="Description"
-              my={2}
-              value={activity.description}
-              name="description"
-              onChange={handleChange}
-            />
-            <Input
-              placeholder="Category"
-              my={2}
-              value={activity.category}
-              name="category"
-              onChange={handleChange}
-            />
-            <Input
-              placeholder="Date"
-              my={2}
-              value={activity.date}
-              name="date"
-              type="date"
-              onChange={handleChange}
-            />
-            <Input
-              placeholder="City"
-              my={2}
-              value={activity.city}
-              name="city"
-              onChange={handleChange}
-            />
-            <Input
-              placeholder="Venue"
-              my={2}
-              value={activity.venue}
-              name="venue"
-              onChange={handleChange}
-            />
+        {({ handleSubmit, errors, touched }) => (
+          <Form onSubmit={handleSubmit}>
+            <FormControl my={2} isInvalid={!!errors.title && touched.title}>
+              <Field as={Input} placeholder="Title" name="title" />
+              <FormErrorMessage>{errors.title}</FormErrorMessage>
+            </FormControl>
+            <FormControl>
+              <Field
+                as={Textarea}
+                placeholder="Description"
+                my={2}
+                name="description"
+              />
+            </FormControl>
+            <FormControl>
+              <Field as={Input} placeholder="Category" my={2} name="category" />
+            </FormControl>
+            <FormControl>
+              <Field
+                as={Input}
+                placeholder="Date"
+                my={2}
+                name="date"
+                type="date"
+              />
+            </FormControl>
+            <FormControl>
+              <Field as={Input} placeholder="City" my={2} name="city" />
+            </FormControl>
+            <FormControl>
+              <Field as={Input} placeholder="Venue" my={2} name="venue" />
+            </FormControl>
             <Flex justifyContent="flex-end" gap={2}>
               <Button as={Link} to={"/activities"} colorScheme="red">
                 Cancel
               </Button>
               <Button
                 colorScheme="blue"
-                onClick={handleSubmit}
                 isLoading={loading}
                 loadingText="Submitting"
+                type="submit"
               >
                 Submit
               </Button>
             </Flex>
-          </>
+          </Form>
         )}
       </Formik>
     </Box>
