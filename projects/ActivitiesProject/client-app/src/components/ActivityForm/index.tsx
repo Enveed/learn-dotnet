@@ -15,6 +15,8 @@ import { LoadingComponent } from "..";
 import { v4 as uuid } from "uuid";
 import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
+import TextInput from "./TextInput";
+import TextArea from "./TextArea";
 
 export default function ActivityForm() {
   const {
@@ -38,6 +40,11 @@ export default function ActivityForm() {
 
   const validationSchema = Yup.object({
     title: Yup.string().required("The activity title is required!"),
+    description: Yup.string().required(),
+    category: Yup.string().required(),
+    date: Yup.string().required(),
+    venue: Yup.string().required(),
+    city: Yup.string().required(),
   });
 
   useEffect(() => {
@@ -79,36 +86,12 @@ export default function ActivityForm() {
       >
         {({ handleSubmit, errors, touched }) => (
           <Form onSubmit={handleSubmit}>
-            <FormControl my={2} isInvalid={!!errors.title && touched.title}>
-              <Field as={Input} placeholder="Title" name="title" />
-              <FormErrorMessage>{errors.title}</FormErrorMessage>
-            </FormControl>
-            <FormControl>
-              <Field
-                as={Textarea}
-                placeholder="Description"
-                my={2}
-                name="description"
-              />
-            </FormControl>
-            <FormControl>
-              <Field as={Input} placeholder="Category" my={2} name="category" />
-            </FormControl>
-            <FormControl>
-              <Field
-                as={Input}
-                placeholder="Date"
-                my={2}
-                name="date"
-                type="date"
-              />
-            </FormControl>
-            <FormControl>
-              <Field as={Input} placeholder="City" my={2} name="city" />
-            </FormControl>
-            <FormControl>
-              <Field as={Input} placeholder="Venue" my={2} name="venue" />
-            </FormControl>
+            <TextInput placeholder="Title" name="title" />
+            <TextArea rows={3} placeholder="Description" name="description" />
+            <TextInput placeholder="Category" name="category" />
+            <TextInput placeholder="Date" name="date" />
+            <TextInput placeholder="City" name="city" />
+            <TextInput placeholder="Venue" name="venue" />
             <Flex justifyContent="flex-end" gap={2}>
               <Button as={Link} to={"/activities"} colorScheme="red">
                 Cancel
