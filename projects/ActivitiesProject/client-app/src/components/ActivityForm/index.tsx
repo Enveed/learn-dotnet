@@ -17,6 +17,8 @@ import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import TextInput from "./TextInput";
 import TextArea from "./TextArea";
+import SelectInput from "./SelectInput";
+import { categoryOptions } from "../../common/options";
 
 export default function ActivityForm() {
   const {
@@ -88,7 +90,11 @@ export default function ActivityForm() {
           <Form onSubmit={handleSubmit}>
             <TextInput placeholder="Title" name="title" />
             <TextArea rows={3} placeholder="Description" name="description" />
-            <TextInput placeholder="Category" name="category" />
+            <SelectInput
+              options={categoryOptions}
+              placeholder="Category"
+              name="category"
+            />
             <TextInput placeholder="Date" name="date" />
             <TextInput placeholder="City" name="city" />
             <TextInput placeholder="Venue" name="venue" />
