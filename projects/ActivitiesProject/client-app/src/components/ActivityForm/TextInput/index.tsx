@@ -19,7 +19,7 @@ export default function TextInput(props: Props) {
     <FormControl my={2} isInvalid={!!meta.error && meta.touched}>
       <FormLabel htmlFor={field.name}>{props.label}</FormLabel>
       <Field as={Input} {...field} {...props} />
-      {meta.touched && meta.error ? (
+      {!!meta.error && meta.touched ? (
         <FormErrorMessage>{meta.error}</FormErrorMessage>
       ) : (
         <></>

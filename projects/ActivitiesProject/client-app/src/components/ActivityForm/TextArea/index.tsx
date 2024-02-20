@@ -20,7 +20,7 @@ export default function TextArea(props: Props) {
     <FormControl my={2} isInvalid={!!meta.error && meta.touched}>
       <FormLabel htmlFor={field.name}>{props.label}</FormLabel>
       <Field as={Textarea} {...field} {...props} />
-      {meta.touched && meta.error ? (
+      {!!meta.error && meta.touched ? (
         <FormErrorMessage>{meta.error}</FormErrorMessage>
       ) : (
         <></>
