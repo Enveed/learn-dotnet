@@ -17,6 +17,7 @@ import {
 import { Link } from "react-router-dom";
 import { Activity } from "../../../interfaces";
 import { MdOutlineAccessTimeFilled, MdLocationPin } from "react-icons/md";
+import { format } from "date-fns";
 
 interface Props {
   activity: Activity;
@@ -40,7 +41,8 @@ export default function ActivityListItem({ activity }: Props) {
         <Stack divider={<StackDivider borderColor="black" />} spacing={4}>
           <Box px={5}>
             <Text>
-              <Icon as={MdOutlineAccessTimeFilled} /> {activity.date}
+              <Icon as={MdOutlineAccessTimeFilled} />{" "}
+              {format(activity.date!, "dd MMM yyyy h:mm aa")}
               <Icon as={MdLocationPin} /> {activity.venue}
             </Text>
           </Box>

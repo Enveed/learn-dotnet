@@ -4,6 +4,7 @@ import agent from "../../services/AxiosService";
 import { v4 as uuid } from "uuid";
 import { ActivitySlice } from "./index.interface";
 import { CommonSlice } from "../CommonSlice/index.interface";
+import { format } from "date-fns";
 
 export const createActivitySlice: StateCreator<
   ActivitySlice & CommonSlice,
@@ -19,7 +20,7 @@ export const createActivitySlice: StateCreator<
   loadingInitial: false,
   getActivitiesByDate: () => {
     return Array.from(get().activityRegistry.values()).sort(
-      (a, b) => Date.parse(a.date) - Date.parse(b.date)
+      (a, b) => a.date!.getTime() - b.date!.getTime()
     );
   },
   getGroupedActivities: () => {
@@ -27,7 +28,7 @@ export const createActivitySlice: StateCreator<
       get()
         .getActivitiesByDate()
         .reduce((activities, activity) => {
-          const date = activity.date;
+          const date = format(activity.date!, "dd MMM yyyy");
           activities[date] = activities[date]
             ? [...activities[date], activity]
             : [activity];
@@ -71,7 +72,7 @@ export const createActivitySlice: StateCreator<
     return activity;
   },
   setActivity: (activity: Activity) => {
-    activity.date = activity.date.split("T")[0];
+    activity.date = new Date(activity.date!);
     set((state) => ({
       activityRegistry: new Map(state.activityRegistry).set(
         activity.id,
