@@ -42,7 +42,37 @@ namespace Persistence
 dotnet ef migrations add IdentityAdded -p Persistence -s API
 ```
 
+* Then, we can inject Identity EF into our API by calling it in the startup class (Program.cs):
+
+``` c#
+
+// API/Extensions/IdentityServiceExtensions.cs
+using Domain;
+using Persistence;
+
+namespace API.Extensions
+{
+    public static class IdentityServiceExtensions
+    {
+        public static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration config)
+        {
+            services.AddIdentityCore<AppUser>(opt =>
+            {
+                opt.Password.RequireNonAlphanumeric = false;
+            }).AddEntityFrameworkStores<DataContext>();
+
+            services.AddAuthentication();
+            return services;
+        }
+    }
+}
+
+// Program.cs
+builder.Services.AddIdentityServices(builder.Configuration);
+
+```
+
 ## References
 
-#dotnet #identity 
+#dotnet #identity #ef
 
