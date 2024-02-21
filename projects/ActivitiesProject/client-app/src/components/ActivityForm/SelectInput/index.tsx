@@ -2,10 +2,9 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
-  Input,
   Select,
 } from "@chakra-ui/react";
-import { Field, useField } from "formik";
+import { useField } from "formik";
 import { BaseSyntheticEvent } from "react";
 
 interface Props {

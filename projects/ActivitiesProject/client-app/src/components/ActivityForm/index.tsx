@@ -19,6 +19,7 @@ import TextInput from "./TextInput";
 import TextArea from "./TextArea";
 import SelectInput from "./SelectInput";
 import { categoryOptions } from "../../common/options";
+import DateInput from "./DateInput";
 
 export default function ActivityForm() {
   const {
@@ -95,7 +96,13 @@ export default function ActivityForm() {
               placeholder="Category"
               name="category"
             />
-            <TextInput placeholder="Date" name="date" />
+            <DateInput
+              placeholderText="Date"
+              name="date"
+              showTimeSelect
+              timeCaption="time"
+              dateFormat="MMMM d, yyyy h:mm aa"
+            />
             <TextInput placeholder="City" name="city" />
             <TextInput placeholder="Venue" name="venue" />
             <Flex justifyContent="flex-end" gap={2}>
