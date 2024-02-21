@@ -1,25 +1,18 @@
-import {
-  Box,
-  Button,
-  Flex,
-  FormControl,
-  FormErrorMessage,
-  Input,
-  Textarea,
-} from "@chakra-ui/react";
-import { ChangeEvent, useEffect, useState } from "react";
+import { Box, Button, Flex } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { useBoundStore } from "../../stores";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Activity } from "../../interfaces";
 import { LoadingComponent } from "..";
 import { v4 as uuid } from "uuid";
-import { Field, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import TextInput from "./TextInput";
 import TextArea from "./TextArea";
 import SelectInput from "./SelectInput";
 import { categoryOptions } from "../../common/options";
 import DateInput from "./DateInput";
+import { Header } from "semantic-ui-react";
 
 export default function ActivityForm() {
   const {
@@ -57,37 +50,31 @@ export default function ActivityForm() {
       });
   }, [id, loadActivity]);
 
-  // const handleSubmit = () => {
-  //   if (!activity.id) {
-  //     activity.id = uuid();
-  //     createActivity(activity).then(() =>
-  //       navigate(`/activities/${activity.id}`)
-  //     );
-  //   } else {
-  //     updateActivity(activity).then(() =>
-  //       navigate(`/activities/${activity.id}`)
-  //     );
-  //   }
-  // };
-
-  // const handleChange = (
-  //   event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  // ) => {
-  //   const { name, value } = event.target;
-  //   setActivity({ ...activity, [name]: value });
-  // };
+  const handleFormSubmit = (activity: Activity) => {
+    if (!activity.id) {
+      activity.id = uuid();
+      createActivity(activity).then(() =>
+        navigate(`/activities/${activity.id}`)
+      );
+    } else {
+      updateActivity(activity).then(() =>
+        navigate(`/activities/${activity.id}`)
+      );
+    }
+  };
 
   if (loadingInitial) return <LoadingComponent content="Loading activity..." />;
 
   return (
     <Box bgColor="white" p="2" my="2">
+      <Header content="Activity Details" sub color="teal" />
       <Formik
         validationSchema={validationSchema}
         enableReinitialize
         initialValues={activity}
-        onSubmit={(values) => console.log(values)}
+        onSubmit={handleFormSubmit}
       >
-        {({ handleSubmit, errors, touched }) => (
+        {({ handleSubmit, isValid, isSubmitting, dirty }) => (
           <Form onSubmit={handleSubmit}>
             <TextInput placeholder="Title" name="title" />
             <TextArea rows={3} placeholder="Description" name="description" />
@@ -103,6 +90,7 @@ export default function ActivityForm() {
               timeCaption="time"
               dateFormat="MMMM d, yyyy h:mm aa"
             />
+            <Header content="Location Details" sub color="teal" />
             <TextInput placeholder="City" name="city" />
             <TextInput placeholder="Venue" name="venue" />
             <Flex justifyContent="flex-end" gap={2}>
@@ -110,6 +98,7 @@ export default function ActivityForm() {
                 Cancel
               </Button>
               <Button
+                isDisabled={isSubmitting || !dirty || !isValid}
                 colorScheme="blue"
                 isLoading={loading}
                 loadingText="Submitting"
