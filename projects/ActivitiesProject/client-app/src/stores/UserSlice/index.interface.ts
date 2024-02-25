@@ -4,4 +4,5 @@ export interface UserSlice {
   user: User | null;
   isLoggedIn: () => boolean;
   login: (creds: UserFormValues) => Promise<void>;
+  logout: () => void;
 }
