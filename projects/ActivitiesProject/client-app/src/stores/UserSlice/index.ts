@@ -4,6 +4,7 @@ import { UserSlice } from "./index.interface";
 import { CommonSlice } from "../CommonSlice/index.interface";
 import { UserFormValues } from "../../interfaces";
 import agent from "../../services/AxiosService";
+import { router } from "../../routes";
 
 export const createUserSlice: StateCreator<
   ActivitySlice & CommonSlice & UserSlice,
@@ -17,6 +18,14 @@ export const createUserSlice: StateCreator<
   },
   login: async (creds: UserFormValues) => {
     const user = await agent.Account.login(creds);
-    console.log(user);
+    get().setToken(user.token);
+    set({ user: user });
+    router.navigate("/activities");
+  },
+  logout: () => {
+    get().setToken(null);
+    localStorage.removeItem("jwt");
+    set({ user: null });
+    router.navigate("/");
   },
 });

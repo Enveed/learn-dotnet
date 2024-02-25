@@ -5,9 +5,10 @@ import { v4 as uuid } from "uuid";
 import { ActivitySlice } from "./index.interface";
 import { CommonSlice } from "../CommonSlice/index.interface";
 import { format } from "date-fns";
+import { UserSlice } from "../UserSlice/index.interface";
 
 export const createActivitySlice: StateCreator<
-  ActivitySlice & CommonSlice,
+  ActivitySlice & CommonSlice & UserSlice,
   [],
   [],
   ActivitySlice
