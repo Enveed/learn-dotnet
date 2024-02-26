@@ -12,6 +12,10 @@ export const createCommonSlice: StateCreator<
   error: null,
   token: localStorage.getItem("jwt"),
   appLoaded: false,
+  modal: {
+    open: false,
+    body: null,
+  },
   setServerError: (error) => {
     set({
       error: error,
@@ -24,5 +28,21 @@ export const createCommonSlice: StateCreator<
   },
   setAppLoaded: () => {
     set({ appLoaded: true });
+  },
+  openModal: (content: JSX.Element) => {
+    set({
+      modal: {
+        open: true,
+        body: content,
+      },
+    });
+  },
+  closeModal: () => {
+    set({
+      modal: {
+        open: false,
+        body: null,
+      },
+    });
   },
 });

@@ -1,6 +1,6 @@
 import { ErrorMessage, Form, Formik } from "formik";
 import TextInput from "../ActivityForm/TextInput";
-import { Button, Label } from "semantic-ui-react";
+import { Button, Header, Label } from "semantic-ui-react";
 import { useBoundStore } from "../../stores";
 export default function LoginForm() {
   const { login } = useBoundStore();
@@ -16,6 +16,12 @@ export default function LoginForm() {
     >
       {({ handleSubmit, isSubmitting, errors }) => (
         <Form onSubmit={handleSubmit} autoComplete="off">
+          <Header
+            as="h2"
+            content="Login to Reactivities"
+            color="teal"
+            textAlign="center"
+          />
           <TextInput placeholder="Email" name="email" />
           <TextInput placeholder="Password" name="password" type="password" />
           <ErrorMessage

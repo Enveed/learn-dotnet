@@ -21,6 +21,7 @@ export const createUserSlice: StateCreator<
     get().setToken(user.token);
     set({ user: user });
     router.navigate("/activities");
+    get().closeModal();
   },
   logout: () => {
     get().setToken(null);
