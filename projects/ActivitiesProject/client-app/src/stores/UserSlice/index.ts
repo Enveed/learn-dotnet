@@ -24,8 +24,15 @@ export const createUserSlice: StateCreator<
   },
   logout: () => {
     get().setToken(null);
-    localStorage.removeItem("jwt");
     set({ user: null });
     router.navigate("/");
+  },
+  getUser: async () => {
+    try {
+      const user = await agent.Account.current();
+      set({ user: user });
+    } catch (e) {
+      console.log(e);
+    }
   },
 });

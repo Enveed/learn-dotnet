@@ -1,12 +1,25 @@
 import "./styles.css";
 import { Container } from "@chakra-ui/react";
-import { Navbar } from "..";
+import { LoadingComponent, Navbar } from "..";
 import { Outlet, useLocation } from "react-router-dom";
 import { Home } from "../../pages";
 import { ToastContainer } from "react-toastify";
+import { useBoundStore } from "../../stores";
+import { useEffect } from "react";
 
 function Layout() {
   const location = useLocation();
+  const { appLoaded, getUser, setAppLoaded, token } = useBoundStore();
+
+  useEffect(() => {
+    if (token) {
+      getUser().finally(() => setAppLoaded());
+    } else {
+      setAppLoaded();
+    }
+  }, []);
+
+  if (!appLoaded) return <LoadingComponent content="Loading app..." />;
 
   return (
     <>

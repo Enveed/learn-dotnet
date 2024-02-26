@@ -10,7 +10,7 @@ export const createCommonSlice: StateCreator<
   CommonSlice
 > = (set, get) => ({
   error: null,
-  token: null,
+  token: localStorage.getItem("jwt"),
   appLoaded: false,
   setServerError: (error) => {
     set({
@@ -18,7 +18,8 @@ export const createCommonSlice: StateCreator<
     });
   },
   setToken: (token) => {
-    if (token) localStorage.setItem("jwt", token);
+    if (token !== null) localStorage.setItem("jwt", token);
+    else localStorage.removeItem("jwt");
     set({ token: token });
   },
   setAppLoaded: () => {
