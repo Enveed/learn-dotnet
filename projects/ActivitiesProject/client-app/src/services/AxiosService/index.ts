@@ -10,6 +10,12 @@ const responseBody = function <T>(response: AxiosResponse<T>) {
   return response.data;
 };
 
+axios.interceptors.request.use((config) => {
+  const token = useBoundStore.getState().token;
+  if (token) config.headers.Authorization = `Bearer ${token}`;
+  return config;
+});
+
 axios.interceptors.response.use(
   async (response) => {
     return response;

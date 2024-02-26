@@ -12,7 +12,7 @@ export default function ActivityDashboard() {
     if (activityRegistry.size <= 1) loadActivities();
   }, []);
 
-  if (loadingInitial) return <LoadingComponent content="Loading app" />;
+  if (loadingInitial) return <LoadingComponent content="Loading activities" />;
   return (
     <Grid templateColumns="repeat(16, 1fr)" gap={6}>
       <GridItem colSpan={10}>
