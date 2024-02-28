@@ -6,4 +6,5 @@ export interface UserSlice {
   login: (creds: UserFormValues) => Promise<void>;
   logout: () => void;
   getUser: () => Promise<void>;
+  register: (creds: UserFormValues) => Promise<void>;
 }

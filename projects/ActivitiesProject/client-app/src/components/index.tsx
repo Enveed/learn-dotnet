@@ -8,6 +8,7 @@ import LoadingComponent from "./LoadingComponent";
 import TestErrors from "./TestError";
 import NotFound from "./NotFound";
 import ServerError from "./ServerError";
+import ValidationError from "./ValidationError";
 
 export {
   ActivityDashboard,
@@ -20,4 +21,5 @@ export {
   TestErrors,
   NotFound,
   ServerError,
+  ValidationError,
 };

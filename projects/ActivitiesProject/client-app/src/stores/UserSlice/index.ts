@@ -23,6 +23,13 @@ export const createUserSlice: StateCreator<
     router.navigate("/activities");
     get().closeModal();
   },
+  register: async (creds: UserFormValues) => {
+    const user = await agent.Account.register(creds);
+    get().setToken(user.token);
+    set({ user: user });
+    router.navigate("/activities");
+    get().closeModal();
+  },
   logout: () => {
     get().setToken(null);
     set({ user: null });

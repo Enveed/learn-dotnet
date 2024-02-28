@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Button, Container, Header, Image, Segment } from "semantic-ui-react";
 import { useBoundStore } from "../../stores";
 import LoginForm from "../../components/LoginForm";
+import RegisterForm from "../../components/RegisterForm";
 
 export default function Home() {
   const { isLoggedIn, openModal } = useBoundStore();
@@ -33,7 +34,7 @@ export default function Home() {
               Login
             </Button>
             <Button
-              onClick={() => openModal(<h1>Register</h1>)}
+              onClick={() => openModal(<RegisterForm />)}
               size="huge"
               inverted
             >
