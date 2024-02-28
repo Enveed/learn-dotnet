@@ -18,7 +18,8 @@ services.AddIdentityCore<AppUser>(opt =>
         {
             if (await _userManager.Users.AnyAsync(x => x.UserName == registerDto.Username))
             {
-                return BadRequest("Username is already taken");
+                ModelState.AddModelError("username", "Username Taken");
+                return ValidationProblem();
             }
 
             var user = new AppUser
