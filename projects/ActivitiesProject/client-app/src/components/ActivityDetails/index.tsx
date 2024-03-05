@@ -29,7 +29,7 @@ export default function ActivityDetails() {
         <ActivityDetailChat />
       </GridItem>
       <GridItem colSpan={6}>
-        <ActivityDetailSidebar attendees={activity.attendees!} />
+        <ActivityDetailSidebar activity={activity} />
       </GridItem>
     </Grid>
   );

@@ -73,6 +73,16 @@ export const createActivitySlice: StateCreator<
     return activity;
   },
   setActivity: (activity: Activity) => {
+    const user = get().user;
+    if (user) {
+      activity.isGoing = activity.attendees!.some(
+        (a) => a.username === user.username
+      );
+      activity.isHost = activity.hostUsername === user.username;
+      activity.host = activity.attendees?.find(
+        (x) => x.username === activity.hostUsername
+      );
+    }
     activity.date = new Date(activity.date!);
     set((state) => ({
       activityRegistry: new Map(state.activityRegistry).set(

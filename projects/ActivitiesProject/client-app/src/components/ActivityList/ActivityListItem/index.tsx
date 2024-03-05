@@ -12,6 +12,7 @@ import {
   Icon,
   Stack,
   StackDivider,
+  Tag,
   Text,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
@@ -33,7 +34,17 @@ export default function ActivityListItem({ activity }: Props) {
 
           <Box>
             <Heading size="md">{activity.title}</Heading>
-            <Text>Hosted by Bob</Text>
+            <Text>Hosted by {activity.host?.displayName}</Text>
+            {activity.isHost && (
+              <Tag size={"md"} variant="outline" colorScheme="orange">
+                You are hosting this activity
+              </Tag>
+            )}
+            {activity.isGoing && !activity.isHost && (
+              <Tag size={"md"} variant="outline" colorScheme="green">
+                You are going to this activity
+              </Tag>
+            )}
           </Box>
         </Flex>
       </CardHeader>
