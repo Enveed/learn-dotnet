@@ -18,6 +18,7 @@ import { Link } from "react-router-dom";
 import { Activity } from "../../../interfaces";
 import { MdOutlineAccessTimeFilled, MdLocationPin } from "react-icons/md";
 import { format } from "date-fns";
+import ActivityListItemAttendee from "../ActivityListItemAttendee";
 
 interface Props {
   activity: Activity;
@@ -47,7 +48,7 @@ export default function ActivityListItem({ activity }: Props) {
             </Text>
           </Box>
           <Box px={5}>
-            <Text>Attendees go here</Text>
+            <ActivityListItemAttendee attendees={activity.attendees!} />
           </Box>
         </Stack>
       </CardBody>
