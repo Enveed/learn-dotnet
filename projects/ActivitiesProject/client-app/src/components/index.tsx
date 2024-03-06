@@ -9,6 +9,7 @@ import TestErrors from "./TestError";
 import NotFound from "./NotFound";
 import ServerError from "./ServerError";
 import ValidationError from "./ValidationError";
+import ProfileCard from "./ProfileCard";
 
 export {
   ActivityDashboard,
@@ -22,4 +23,5 @@ export {
   NotFound,
   ServerError,
   ValidationError,
+  ProfileCard,
 };
