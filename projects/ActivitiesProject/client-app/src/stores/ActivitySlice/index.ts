@@ -1,5 +1,5 @@
 import { StateCreator } from "zustand";
-import { Activity } from "../../interfaces";
+import { Activity, Profile } from "../../interfaces";
 import agent from "../../services/AxiosService";
 import { v4 as uuid } from "uuid";
 import { ActivitySlice } from "./index.interface";
@@ -141,6 +141,46 @@ export const createActivitySlice: StateCreator<
           activityRegistry: tempActivityRegistry,
         };
       });
+    } catch (e) {
+      console.log(e);
+    }
+    set({ loading: false });
+  },
+  updateAttendance: async () => {
+    const user = get().user;
+    set({ loading: true });
+    try {
+      await agent.Activities.attend(get().selectedActivity!.id);
+      if (get().selectedActivity?.isGoing) {
+        set((state) => ({
+          selectedActivity: {
+            ...state.selectedActivity!,
+            attendees: state.selectedActivity?.attendees?.filter(
+              (a) => a.username !== user?.username
+            ),
+            isGoing: false,
+          },
+        }));
+      } else {
+        const attendee = new Profile(user!);
+        set((state) => {
+          const tempAttendee = state.selectedActivity?.attendees;
+          tempAttendee?.push(attendee);
+          return {
+            selectedActivity: {
+              ...state.selectedActivity!,
+              attendees: tempAttendee,
+              isGoing: true,
+            },
+          };
+        });
+      }
+      set((state) => ({
+        activityRegistry: new Map(state.activityRegistry).set(
+          state.selectedActivity!.id,
+          state.selectedActivity!
+        ),
+      }));
     } catch (e) {
       console.log(e);
     }

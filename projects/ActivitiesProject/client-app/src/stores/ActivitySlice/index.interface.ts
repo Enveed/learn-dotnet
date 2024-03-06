@@ -15,4 +15,5 @@ export interface ActivitySlice {
   deleteActivity: (id: string) => void;
   setActivity: (activity: Activity) => void;
   getGroupedActivities: () => [string, Activity[]][];
+  updateAttendance: () => void;
 }
