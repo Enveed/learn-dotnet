@@ -2,7 +2,6 @@ import { Box, Button, Flex } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useBoundStore } from "../../stores";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Activity } from "../../interfaces";
 import { LoadingComponent } from "..";
 import { v4 as uuid } from "uuid";
 import { Form, Formik } from "formik";
@@ -13,26 +12,16 @@ import SelectInput from "./SelectInput";
 import { categoryOptions } from "../../common/options";
 import DateInput from "./DateInput";
 import { Header } from "semantic-ui-react";
+import { ActivityFormValues } from "../../interfaces/Activity/index.interface";
 
 export default function ActivityForm() {
-  const {
-    createActivity,
-    updateActivity,
-    loading,
-    loadActivity,
-    loadingInitial,
-  } = useBoundStore();
+  const { createActivity, updateActivity, loadActivity, loadingInitial } =
+    useBoundStore();
   const navigate = useNavigate();
   const { id } = useParams();
-  const [activity, setActivity] = useState<Activity>({
-    id: "",
-    title: "",
-    date: null,
-    description: "",
-    category: "",
-    city: "",
-    venue: "",
-  });
+  const [activity, setActivity] = useState<ActivityFormValues>(
+    new ActivityFormValues()
+  );
 
   const validationSchema = Yup.object({
     title: Yup.string().required("The activity title is required!"),
@@ -46,11 +35,11 @@ export default function ActivityForm() {
   useEffect(() => {
     if (id)
       loadActivity(id).then((activity) => {
-        setActivity(activity!);
+        setActivity(new ActivityFormValues(activity));
       });
   }, [id, loadActivity]);
 
-  const handleFormSubmit = (activity: Activity) => {
+  const handleFormSubmit = (activity: ActivityFormValues) => {
     if (!activity.id) {
       activity.id = uuid();
       createActivity(activity).then(() =>
@@ -100,7 +89,7 @@ export default function ActivityForm() {
               <Button
                 isDisabled={isSubmitting || !dirty || !isValid}
                 colorScheme="blue"
-                isLoading={loading}
+                isLoading={isSubmitting}
                 loadingText="Submitting"
                 type="submit"
               >

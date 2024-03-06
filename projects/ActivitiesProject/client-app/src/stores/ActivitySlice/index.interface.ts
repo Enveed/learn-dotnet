@@ -1,4 +1,4 @@
-import { Activity } from "../../interfaces";
+import { Activity, ActivityFormValues } from "../../interfaces";
 
 export interface ActivitySlice {
   activities: Activity[];
@@ -10,8 +10,8 @@ export interface ActivitySlice {
   getActivitiesByDate: () => Activity[];
   loadActivities: () => void;
   loadActivity: (id: string) => Promise<Activity | undefined>;
-  createActivity: (activity: Activity) => Promise<Activity | undefined>;
-  updateActivity: (activity: Activity) => Promise<Activity | undefined>;
+  createActivity: (activity: ActivityFormValues) => Promise<void>;
+  updateActivity: (activity: ActivityFormValues) => Promise<void>;
   deleteActivity: (id: string) => void;
   setActivity: (activity: Activity) => void;
   getGroupedActivities: () => [string, Activity[]][];

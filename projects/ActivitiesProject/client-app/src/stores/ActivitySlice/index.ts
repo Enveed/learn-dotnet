@@ -1,5 +1,5 @@
 import { StateCreator } from "zustand";
-import { Activity, Profile } from "../../interfaces";
+import { Activity, ActivityFormValues, Profile } from "../../interfaces";
 import agent from "../../services/AxiosService";
 import { v4 as uuid } from "uuid";
 import { ActivitySlice } from "./index.interface";
@@ -91,42 +91,40 @@ export const createActivitySlice: StateCreator<
       ),
     }));
   },
-  createActivity: async (activity: Activity) => {
-    set({ loading: true });
+  createActivity: async (activity: ActivityFormValues) => {
     activity.id = uuid();
+    const user = get().user;
+    const attendee = new Profile(user!);
     try {
       await agent.Activities.create(activity);
-      set((state) => ({
-        activityRegistry: new Map(state.activityRegistry).set(
-          activity.id,
-          activity
-        ),
-        selectedActivity: activity,
-        editMode: false,
-      }));
-      set({ loading: false });
-      return activity;
+      const newActivity = new Activity(activity);
+      newActivity.hostUsername = user!.username;
+      newActivity.attendees = [attendee];
+      get().setActivity(newActivity);
+      set({
+        selectedActivity: newActivity,
+      });
     } catch (e) {
       console.log(e);
-      set({ loading: false });
     }
   },
-  updateActivity: async (activity: Activity) => {
-    set({ loading: true });
+  updateActivity: async (activity: ActivityFormValues) => {
     try {
       await agent.Activities.update(activity);
-      set((state) => ({
-        activityRegistry: new Map(state.activityRegistry).set(
-          activity.id,
-          activity
-        ),
-        selectedActivity: activity,
-        editMode: false,
-      }));
-      set({ loading: false });
-      return activity;
+      if (activity.id) {
+        const updatedActivity = {
+          ...(await get().loadActivity(activity.id)),
+          ...activity,
+        };
+        set((state) => ({
+          activityRegistry: new Map(state.activityRegistry).set(
+            activity.id!,
+            updatedActivity as Activity
+          ),
+          selectedActivity: updatedActivity as Activity,
+        }));
+      }
     } catch (e) {
-      set({ loading: false });
       console.log(e);
     }
   },
