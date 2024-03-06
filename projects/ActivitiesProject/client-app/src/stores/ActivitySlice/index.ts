@@ -184,4 +184,23 @@ export const createActivitySlice: StateCreator<
     }
     set({ loading: false });
   },
+  cancelActivityToggle: async () => {
+    set({ loading: true });
+    try {
+      await agent.Activities.attend(get().selectedActivity!.id);
+      set((state) => ({
+        selectedActivity: {
+          ...state.selectedActivity!,
+          isCancelled: !state.selectedActivity?.isCancelled,
+        },
+        activityRegistry: new Map(state.activityRegistry).set(
+          state.selectedActivity!.id,
+          state.selectedActivity!
+        ),
+      }));
+    } catch (e) {
+      console.log(e);
+    }
+    set({ loading: false });
+  },
 });

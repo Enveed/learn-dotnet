@@ -20,6 +20,7 @@ import { Activity } from "../../../interfaces";
 import { MdOutlineAccessTimeFilled, MdLocationPin } from "react-icons/md";
 import { format } from "date-fns";
 import ActivityListItemAttendee from "../ActivityListItemAttendee";
+import { Label } from "semantic-ui-react";
 
 interface Props {
   activity: Activity;
@@ -28,6 +29,14 @@ interface Props {
 export default function ActivityListItem({ activity }: Props) {
   return (
     <Card my={2}>
+      {activity.isCancelled && (
+        <Label
+          attached="top"
+          color="red"
+          content="Cancelled"
+          style={{ textAlign: "center" }}
+        />
+      )}
       <CardHeader>
         <Flex flex="1" gap="4" flexWrap="wrap">
           <Avatar src="/assets/user.png" size="xl" />
