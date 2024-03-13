@@ -2,6 +2,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import {
   Activity,
   ActivityFormValues,
+  Profile,
   User,
   UserFormValues,
 } from "../../interfaces";
@@ -93,6 +94,10 @@ const Account = {
     requests.post<User>("/account/register", user),
 };
 
-const agent = { Activities, Account };
+const Profiles = {
+  get: (username: string) => requests.get<Profile>(`/profiles/${username}`),
+};
+
+const agent = { Activities, Account, Profiles };
 
 export default agent;
