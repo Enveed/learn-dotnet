@@ -53,7 +53,7 @@ export default function ActivityDetailedHeader({ activity }: Props) {
                 <p>
                   Hosted by{" "}
                   <strong>
-                    <Link to={`/profile/activity.host?.username`}>
+                    <Link to={`/profiles/activity.host?.username`}>
                       {activity.host?.displayName}
                     </Link>
                   </strong>

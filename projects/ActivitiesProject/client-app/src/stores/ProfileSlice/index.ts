@@ -25,4 +25,11 @@ export const createProfileSlice: StateCreator<
     }
     set({ loadingProfile: false });
   },
+  isCurrentUser: () => {
+    const { user, profile } = get();
+    if (user && profile) {
+      return user.username === profile.username;
+    }
+    return false;
+  },
 });
