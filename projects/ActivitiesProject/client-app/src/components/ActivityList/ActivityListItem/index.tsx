@@ -39,11 +39,16 @@ export default function ActivityListItem({ activity }: Props) {
       )}
       <CardHeader>
         <Flex flex="1" gap="4" flexWrap="wrap">
-          <Avatar src="/assets/user.png" size="xl" />
+          <Avatar src={activity.host?.image || "/assets/user.png"} size="xl" />
 
           <Box>
             <Heading size="md">{activity.title}</Heading>
-            <Text>Hosted by {activity.host?.displayName}</Text>
+            <Text>
+              Hosted by{" "}
+              <Link to={`/profiles/${activity.hostUsername}`}>
+                {activity.host?.displayName}
+              </Link>
+            </Text>
             {activity.isHost && (
               <Tag size={"md"} variant="outline" colorScheme="orange">
                 You are hosting this activity

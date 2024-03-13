@@ -5,6 +5,7 @@ import {
   ActivityForm,
   Layout,
   NotFound,
+  ProfilePage,
   ServerError,
   TestErrors,
 } from "../components";
@@ -19,6 +20,7 @@ export const routes: RouteObject[] = [
       { path: "activities/:id", element: <ActivityDetails /> },
       { path: "create-activity", element: <ActivityForm key="create" /> },
       { path: "manage/:id", element: <ActivityForm key="manage" /> },
+      { path: "profiles/:username", element: <ProfilePage /> },
       { path: "login", element: <LoginForm /> },
       { path: "errors", element: <TestErrors /> },
       { path: "not-found", element: <NotFound /> },
