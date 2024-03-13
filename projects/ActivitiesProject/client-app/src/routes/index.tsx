@@ -5,11 +5,11 @@ import {
   ActivityForm,
   Layout,
   NotFound,
-  ProfilePage,
   ServerError,
   TestErrors,
 } from "../components";
 import LoginForm from "../components/LoginForm";
+import { ProfilePage } from "../pages";
 
 export const routes: RouteObject[] = [
   {

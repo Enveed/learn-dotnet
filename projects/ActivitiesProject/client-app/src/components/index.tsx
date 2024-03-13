@@ -10,7 +10,6 @@ import NotFound from "./NotFound";
 import ServerError from "./ServerError";
 import ValidationError from "./ValidationError";
 import ProfileCard from "./ProfileCard";
-import ProfilePage from "./ProfilePage";
 
 export {
   ActivityDashboard,
@@ -25,5 +24,4 @@ export {
   ServerError,
   ValidationError,
   ProfileCard,
-  ProfilePage,
 };
