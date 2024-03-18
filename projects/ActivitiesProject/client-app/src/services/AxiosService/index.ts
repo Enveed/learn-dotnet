@@ -9,6 +9,7 @@ import {
 import { toast } from "react-toastify";
 import { router } from "../../routes";
 import { useBoundStore } from "../../stores";
+import { Photo } from "../../interfaces/Profile/index.interface";
 
 axios.defaults.baseURL = "http://localhost:5000/api";
 
@@ -96,6 +97,15 @@ const Account = {
 
 const Profiles = {
   get: (username: string) => requests.get<Profile>(`/profiles/${username}`),
+  uploadPhoto: (file: Blob) => {
+    const formData = new FormData();
+    formData.append("File", file);
+    return axios.post<Photo>("photos", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  },
 };
 
 const agent = { Activities, Account, Profiles };

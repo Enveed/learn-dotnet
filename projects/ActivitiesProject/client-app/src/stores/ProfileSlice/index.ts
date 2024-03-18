@@ -13,6 +13,7 @@ export const createProfileSlice: StateCreator<
 > = (set, get) => ({
   profile: null,
   loadingProfile: false,
+  uploading: false,
   loadProfile: async (username: string) => {
     set({ loadingProfile: true });
     try {
@@ -31,5 +32,31 @@ export const createProfileSlice: StateCreator<
       return user.username === profile.username;
     }
     return false;
+  },
+  uploadPhoto: async (file: Blob) => {
+    set({ uploading: true });
+    try {
+      const response = await agent.Profiles.uploadPhoto(file);
+      const photo = response.data;
+      if (get().profile) {
+        set((state) => ({
+          profile: {
+            ...state.profile!,
+            photos: state.profile?.photos
+              ? [...state.profile!.photos, photo]
+              : [photo],
+          },
+        }));
+        if (photo.isMain && get().user) {
+          get().setImage(photo.url);
+          set((state) => ({
+            profile: { ...state.profile!, image: photo.url },
+          }));
+        }
+      }
+    } catch (e) {
+      console.log(e);
+    }
+    set({ uploading: false });
   },
 });

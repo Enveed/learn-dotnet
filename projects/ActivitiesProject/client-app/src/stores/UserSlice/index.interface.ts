@@ -7,4 +7,5 @@ export interface UserSlice {
   logout: () => void;
   getUser: () => Promise<void>;
   register: (creds: UserFormValues) => Promise<void>;
+  setImage: (image: string) => void;
 }

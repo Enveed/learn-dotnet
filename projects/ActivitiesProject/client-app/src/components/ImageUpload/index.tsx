@@ -3,13 +3,18 @@ import ImageUploadDropzone from "../ImageUploadDropzone";
 import { useEffect, useState } from "react";
 import ImageUploadCropper from "../ImageUploadCropper";
 
-export default function ImageUpload() {
+interface Props {
+  loading: boolean;
+  uploadPhoto: (file: Blob) => void;
+}
+
+export default function ImageUpload({ loading, uploadPhoto }: Props) {
   const [files, setFiles] = useState<any>([]);
   const [cropper, setCropper] = useState<Cropper>();
 
   const onCrop = () => {
     if (cropper) {
-      cropper.getCroppedCanvas().toBlob((blob) => console.log(blob));
+      cropper.getCroppedCanvas().toBlob((blob) => uploadPhoto(blob!));
     }
   };
 
@@ -46,8 +51,15 @@ export default function ImageUpload() {
             style={{ minHeight: 200, overflow: "hidden" }}
           ></div>
           <Button.Group widths={2}>
-            <Button onClick={onCrop} positive icon="check" />
             <Button
+              disabled={loading}
+              loading={loading}
+              onClick={onCrop}
+              positive
+              icon="check"
+            />
+            <Button
+              disabled={loading}
               onClick={() => {
                 setFiles([]);
               }}

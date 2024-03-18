@@ -44,4 +44,14 @@ export const createUserSlice: StateCreator<
       console.log(e);
     }
   },
+  setImage: (image) => {
+    if (get().user) {
+      set((state) => ({
+        user: {
+          ...state.user!,
+          image,
+        },
+      }));
+    }
+  },
 });
