@@ -1,4 +1,4 @@
-import { Grid, Header, Image } from "semantic-ui-react";
+import { Button, Grid, Header } from "semantic-ui-react";
 import ImageUploadDropzone from "../ImageUploadDropzone";
 import { useEffect, useState } from "react";
 import ImageUploadCropper from "../ImageUploadCropper";
@@ -15,7 +15,9 @@ export default function ImageUpload() {
 
   useEffect(() => {
     return () => {
-      files.forEach((file: any) => URL.revokeObjectURL(file.preview));
+      files.forEach((file: object & { preview?: string }) =>
+        URL.revokeObjectURL(file.preview!)
+      );
     };
   }, [files]);
 
@@ -38,10 +40,21 @@ export default function ImageUpload() {
       <Grid.Column width={1} />
       <Grid.Column width={4}>
         <Header color="teal" content="Step 3 - Preview & Upload" />
-        <div
-          className="img-preview"
-          style={{ minHeight: 200, overflow: "hidden" }}
-        ></div>
+        <>
+          <div
+            className="img-preview"
+            style={{ minHeight: 200, overflow: "hidden" }}
+          ></div>
+          <Button.Group widths={2}>
+            <Button onClick={onCrop} positive icon="check" />
+            <Button
+              onClick={() => {
+                setFiles([]);
+              }}
+              icon="close"
+            />
+          </Button.Group>
+        </>
       </Grid.Column>
     </Grid>
   );
