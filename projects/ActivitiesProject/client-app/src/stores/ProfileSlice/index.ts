@@ -59,4 +59,21 @@ export const createProfileSlice: StateCreator<
     }
     set({ uploading: false });
   },
+  setMainPhoto: async (photo) => {
+    set({ loading: true });
+    try {
+      await agent.Profiles.setMainPhoto(photo.id);
+      get().setImage(photo.url);
+      if (get().profile && get().profile?.photos) {
+        get().profile!.photos!.find((p) => p.isMain)!.isMain = false;
+        get().profile!.photos!.find((p) => p.id === photo.id)!.isMain = true;
+        set((state) => ({
+          profile: { ...state.profile!, image: photo.url },
+        }));
+      }
+    } catch (e) {
+      console.log(e);
+    }
+    set({ loading: false });
+  },
 });

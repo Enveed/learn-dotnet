@@ -106,6 +106,8 @@ const Profiles = {
       },
     });
   },
+  setMainPhoto: (id: string) => requests.post(`/photos/${id}/setMain`, {}),
+  deletePhoto: (id: string) => requests.delete(`/photos/${id}`),
 };
 
 const agent = { Activities, Account, Profiles };
