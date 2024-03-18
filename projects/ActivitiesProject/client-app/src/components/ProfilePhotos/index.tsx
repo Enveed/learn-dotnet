@@ -10,13 +10,27 @@ interface Props {
 }
 
 export default function ProfilePhotos({ profile }: Props) {
-  const { isCurrentUser, uploadPhoto, uploading, loading, setMainPhoto } =
-    useBoundStore();
+  const {
+    isCurrentUser,
+    uploadPhoto,
+    uploading,
+    loading,
+    setMainPhoto,
+    deletePhoto,
+  } = useBoundStore();
   const [addPhotoMode, setAddPhotoMode] = useState(false);
   const [target, setTarget] = useState("");
 
   const handlePhotoUpload = (file: Blob) => {
     uploadPhoto(file).then(() => setAddPhotoMode(false));
+  };
+
+  const handleDeletePhoto = (
+    photo: Photo,
+    e: SyntheticEvent<HTMLButtonElement>
+  ) => {
+    setTarget(e.currentTarget.name);
+    deletePhoto(photo);
   };
 
   const handleSetMainPhoto = (
@@ -55,12 +69,20 @@ export default function ProfilePhotos({ profile }: Props) {
                         basic
                         color="green"
                         content="Main"
-                        name={photo.id}
+                        name={"main" + photo.id}
                         disabled={photo.isMain}
                         onClick={(e) => handleSetMainPhoto(photo, e)}
-                        loading={target === photo.id && loading}
+                        loading={target === "main" + photo.id && loading}
                       />
-                      <Button basic color="red" icon="trash" />
+                      <Button
+                        basic
+                        color="red"
+                        icon="trash"
+                        name={photo.id}
+                        loading={target === photo.id && loading}
+                        onClick={(e) => handleDeletePhoto(photo, e)}
+                        disabled={photo.isMain}
+                      />
                     </Button.Group>
                   )}
                 </Card>

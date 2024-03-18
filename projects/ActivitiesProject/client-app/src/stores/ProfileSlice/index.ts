@@ -76,4 +76,19 @@ export const createProfileSlice: StateCreator<
     }
     set({ loading: false });
   },
+  deletePhoto: async (photo) => {
+    set({ loading: true });
+    try {
+      await agent.Profiles.deletePhoto(photo.id);
+      set((state) => ({
+        profile: {
+          ...state.profile!,
+          photos: state.profile!.photos?.filter((p) => p.id !== photo.id),
+        },
+      }));
+    } catch (e) {
+      console.log(e);
+    }
+    set({ loading: false });
+  },
 });

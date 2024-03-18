@@ -9,4 +9,5 @@ export interface ProfileSlice {
   isCurrentUser: () => boolean;
   uploadPhoto: (file: Blob) => Promise<void>;
   setMainPhoto: (photo: Photo) => Promise<void>;
+  deletePhoto: (photo: Photo) => Promise<void>;
 }
