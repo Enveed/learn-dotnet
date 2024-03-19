@@ -1,6 +1,25 @@
 import { Segment, Header, Comment, Form, Button } from "semantic-ui-react";
+import { useBoundStore } from "../../../stores";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
-export default function ActivityDetailedChat() {
+interface Props {
+  activityId: string;
+}
+
+export default function ActivityDetailedChat({ activityId }: Props) {
+  const { createHubConnection, clearComments, comments } = useBoundStore();
+
+  useEffect(() => {
+    if (activityId) {
+      createHubConnection(activityId);
+
+      return () => {
+        clearComments();
+      };
+    }
+  }, [activityId, createHubConnection, clearComments]);
+
   return (
     <>
       <Segment
@@ -14,19 +33,23 @@ export default function ActivityDetailedChat() {
       </Segment>
       <Segment attached>
         <Comment.Group>
-          <Comment>
-            <Comment.Avatar src="/assets/user.png" />
-            <Comment.Content>
-              <Comment.Author as="a">Matt</Comment.Author>
-              <Comment.Metadata>
-                <div>Today at 5:42PM</div>
-              </Comment.Metadata>
-              <Comment.Text>How artistic!</Comment.Text>
-              <Comment.Actions>
-                <Comment.Action>Reply</Comment.Action>
-              </Comment.Actions>
-            </Comment.Content>
-          </Comment>
+          {comments.map((comment) => (
+            <Comment key={comment.id}>
+              <Comment.Avatar src={comment.image || "/assets/user.png"} />
+              <Comment.Content>
+                <Comment.Author as={Link} to={`/profiles/${comment.username}`}>
+                  {comment.displayName}
+                </Comment.Author>
+                <Comment.Metadata>
+                  <div>Today at 5:42PM</div>
+                </Comment.Metadata>
+                <Comment.Text>How artistic!</Comment.Text>
+                <Comment.Actions>
+                  <Comment.Action>Reply</Comment.Action>
+                </Comment.Actions>
+              </Comment.Content>
+            </Comment>
+          ))}
 
           <Comment>
             <Comment.Avatar src="/assets/user.png" />

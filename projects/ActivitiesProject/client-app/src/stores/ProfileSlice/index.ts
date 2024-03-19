@@ -4,9 +4,10 @@ import { CommonSlice } from "../CommonSlice/index.interface";
 import { UserSlice } from "../UserSlice/index.interface";
 import { ProfileSlice } from "./index.interface";
 import agent from "../../services/AxiosService";
+import { CommentSlice } from "../CommentSlice/index.interface";
 
 export const createProfileSlice: StateCreator<
-  ActivitySlice & CommonSlice & UserSlice & ProfileSlice,
+  ActivitySlice & CommonSlice & UserSlice & ProfileSlice & CommentSlice,
   [],
   [],
   ProfileSlice

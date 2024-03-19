@@ -7,9 +7,10 @@ import { CommonSlice } from "../CommonSlice/index.interface";
 import { format } from "date-fns";
 import { UserSlice } from "../UserSlice/index.interface";
 import { ProfileSlice } from "../ProfileSlice/index.interface";
+import { CommentSlice } from "../CommentSlice/index.interface";
 
 export const createActivitySlice: StateCreator<
-  ActivitySlice & CommonSlice & UserSlice & ProfileSlice,
+  ActivitySlice & CommonSlice & UserSlice & ProfileSlice & CommentSlice,
   [],
   [],
   ActivitySlice

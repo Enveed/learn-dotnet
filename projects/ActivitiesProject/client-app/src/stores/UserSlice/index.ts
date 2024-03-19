@@ -6,9 +6,10 @@ import { UserFormValues } from "../../interfaces";
 import agent from "../../services/AxiosService";
 import { router } from "../../routes";
 import { ProfileSlice } from "../ProfileSlice/index.interface";
+import { CommentSlice } from "../CommentSlice/index.interface";
 
 export const createUserSlice: StateCreator<
-  ActivitySlice & CommonSlice & UserSlice & ProfileSlice,
+  ActivitySlice & CommonSlice & UserSlice & ProfileSlice & CommentSlice,
   [],
   [],
   UserSlice

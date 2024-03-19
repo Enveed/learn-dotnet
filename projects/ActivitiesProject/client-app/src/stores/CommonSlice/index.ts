@@ -3,9 +3,10 @@ import { ActivitySlice } from "../ActivitySlice/index.interface";
 import { CommonSlice } from "./index.interface";
 import { UserSlice } from "../UserSlice/index.interface";
 import { ProfileSlice } from "../ProfileSlice/index.interface";
+import { CommentSlice } from "../CommentSlice/index.interface";
 
 export const createCommonSlice: StateCreator<
-  ActivitySlice & CommonSlice & UserSlice & ProfileSlice,
+  ActivitySlice & CommonSlice & UserSlice & ProfileSlice & CommentSlice,
   [],
   [],
   CommonSlice
