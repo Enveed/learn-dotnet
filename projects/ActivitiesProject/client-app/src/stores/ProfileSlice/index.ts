@@ -91,4 +91,28 @@ export const createProfileSlice: StateCreator<
     }
     set({ loading: false });
   },
+  setDisplayName: (displayName) => {
+    if (get().profile)
+      set((state) => ({
+        profile: {
+          ...state.profile!,
+          displayName,
+        },
+      }));
+  },
+  updateProfile: async (profile) => {
+    set({ loading: true });
+    try {
+      await agent.Profiles.updateProfile(profile);
+      set((state) => ({
+        profile: {
+          ...state.profile!,
+          ...profile,
+        },
+      }));
+    } catch (e) {
+      console.log(e);
+    }
+    set({ loading: false });
+  },
 });

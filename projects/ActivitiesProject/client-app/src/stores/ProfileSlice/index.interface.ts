@@ -10,4 +10,6 @@ export interface ProfileSlice {
   uploadPhoto: (file: Blob) => Promise<void>;
   setMainPhoto: (photo: Photo) => Promise<void>;
   deletePhoto: (photo: Photo) => Promise<void>;
+  setDisplayName: (displayName: string) => void;
+  updateProfile: (profile: Partial<Profile>) => Promise<void>;
 }
