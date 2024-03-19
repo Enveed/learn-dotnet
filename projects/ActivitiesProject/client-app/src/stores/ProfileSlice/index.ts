@@ -92,10 +92,10 @@ export const createProfileSlice: StateCreator<
     set({ loading: false });
   },
   setDisplayName: (displayName) => {
-    if (get().profile)
+    if (get().user)
       set((state) => ({
-        profile: {
-          ...state.profile!,
+        user: {
+          ...state.user!,
           displayName,
         },
       }));
@@ -104,6 +104,8 @@ export const createProfileSlice: StateCreator<
     set({ loading: true });
     try {
       await agent.Profiles.updateProfile(profile);
+      if (profile.displayName !== get().user?.displayName)
+        get().setDisplayName(profile.displayName!);
       set((state) => ({
         profile: {
           ...state.profile!,
