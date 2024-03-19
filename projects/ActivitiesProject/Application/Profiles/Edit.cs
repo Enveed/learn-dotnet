@@ -36,6 +36,8 @@ namespace Application.Profiles
                 profile.DisplayName = request.DisplayName ?? profile.DisplayName;
                 profile.Bio = request.Bio ?? profile.Bio;
 
+                _context.Entry(profile).State = EntityState.Modified;
+
                 var success = await _context.SaveChangesAsync() > 0;
                 if (!success) return Result<Unit>.Failure("Failed to update user profile");
                 return Result<Unit>.Success(Unit.Value);
