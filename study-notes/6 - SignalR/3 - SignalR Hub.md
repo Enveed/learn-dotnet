@@ -106,4 +106,20 @@ namespace API.Extensions
 }
 ```
 
+* To resolve CORS error, we need to:
+``` c#
+// API/Extensions/ApplicationServiceExtensions.cs
+services.AddCors(opt =>
+            {
+                opt.AddPolicy("CorsPolicy", policy =>
+                {
+                    policy
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials()
+                        .WithOrigins("http://localhost:3000");
+                });
+            });
+```
+
 #dotnet #clean-architecture #signalr #hub #authentication
