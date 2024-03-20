@@ -26,7 +26,7 @@ export default function ActivityDetails() {
       <GridItem colSpan={10}>
         <ActivityDetailHeader activity={activity} />
         <ActivityDetailInfo activity={activity} />
-        <ActivityDetailChat />
+        <ActivityDetailChat activityId={activity.id} />
       </GridItem>
       <GridItem colSpan={6}>
         <ActivityDetailSidebar activity={activity} />
