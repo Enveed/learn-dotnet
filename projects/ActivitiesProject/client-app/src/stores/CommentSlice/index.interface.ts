@@ -7,4 +7,5 @@ export interface CommentSlice {
   createHubConnection: (activityId: string) => void;
   stopHubConnection: () => void;
   clearComments: () => void;
+  addComment: (values: { body: string; activityId?: string }) => Promise<void>;
 }

@@ -37,7 +37,7 @@ export const createCommentSlice: StateCreator<
         set({ comments });
       });
 
-      get().hubConnection?.on("ReceieveComment", (comment: ChatComment) => {
+      get().hubConnection?.on("ReceiveComment", (comment: ChatComment) => {
         set((state) => ({
           comments: [...state.comments, comment],
         }));
@@ -52,5 +52,13 @@ export const createCommentSlice: StateCreator<
   clearComments: () => {
     set({ comments: [] });
     get().stopHubConnection();
+  },
+  addComment: async (values) => {
+    values.activityId = get().selectedActivity?.id;
+    try {
+      get().hubConnection?.invoke("SendComment", values);
+    } catch (e) {
+      console.log(e);
+    }
   },
 });
