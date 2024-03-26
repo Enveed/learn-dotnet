@@ -17,4 +17,5 @@ export interface ActivitySlice {
   getGroupedActivities: () => [string, Activity[]][];
   updateAttendance: () => void;
   cancelActivityToggle: () => void;
+  clearSelectedActivity: () => void;
 }

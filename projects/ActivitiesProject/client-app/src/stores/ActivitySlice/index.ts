@@ -205,4 +205,7 @@ export const createActivitySlice: StateCreator<
     }
     set({ loading: false });
   },
+  clearSelectedActivity: () => {
+    set({ selectedActivity: undefined });
+  },
 });
