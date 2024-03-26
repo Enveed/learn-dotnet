@@ -34,12 +34,22 @@ export const createCommentSlice: StateCreator<
         );
 
       get().hubConnection?.on("LoadComments", (comments: ChatComment[]) => {
-        set({ comments });
+        set({
+          comments: comments.map((comment: ChatComment) => {
+            return {
+              ...comment,
+              createdAt: new Date(comment.createdAt + "Z"),
+            };
+          }),
+        });
       });
 
       get().hubConnection?.on("ReceiveComment", (comment: ChatComment) => {
         set((state) => ({
-          comments: [...state.comments, comment],
+          comments: [
+            { ...comment, createdAt: new Date(comment.createdAt) },
+            ...state.comments,
+          ],
         }));
       });
     }
