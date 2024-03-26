@@ -90,6 +90,6 @@ namespace Persistence
 ``` bash
 dotnet ef migrations add FollowingEntityAdded -s API -p Persistence
 ```
-
+	
 
 #dotnet #identity #ef #manytomany`
