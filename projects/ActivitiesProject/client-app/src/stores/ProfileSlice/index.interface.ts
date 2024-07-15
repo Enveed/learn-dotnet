@@ -6,6 +6,7 @@ export interface ProfileSlice {
   loadingProfile: boolean;
   uploading: boolean;
   followings: Profile[];
+  loadingFollowings: boolean;
   loadProfile: (username: string) => Promise<void>;
   isCurrentUser: () => boolean;
   uploadPhoto: (file: Blob) => Promise<void>;
@@ -14,4 +15,5 @@ export interface ProfileSlice {
   setDisplayName: (displayName: string) => void;
   updateProfile: (profile: Partial<Profile>) => Promise<void>;
   updateFollowing: (username: string, following: boolean) => Promise<void>;
+  loadFollowings: (predicate: string) => Promise<void>;
 }
