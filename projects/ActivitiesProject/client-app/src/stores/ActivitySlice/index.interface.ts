@@ -18,4 +18,5 @@ export interface ActivitySlice {
   updateAttendance: () => void;
   cancelActivityToggle: () => void;
   clearSelectedActivity: () => void;
+  updateAttendeeFollowing: (username: string) => void;
 }

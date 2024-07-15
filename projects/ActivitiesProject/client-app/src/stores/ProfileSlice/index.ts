@@ -15,6 +15,7 @@ export const createProfileSlice: StateCreator<
   profile: null,
   loadingProfile: false,
   uploading: false,
+  followings: [],
   loadProfile: async (username: string) => {
     set({ loadingProfile: true });
     try {
@@ -113,6 +114,34 @@ export const createProfileSlice: StateCreator<
           ...profile,
         },
       }));
+    } catch (e) {
+      console.log(e);
+    }
+    set({ loading: false });
+  },
+  updateFollowing: async (username, following) => {
+    set({ loading: true });
+    try {
+      await agent.Profiles.updateFollowing(username);
+      get().updateAttendeeFollowing(username);
+      const profile = get().profile;
+      if (profile && profile.username !== get().user?.username) {
+        following ? profile.followersCount++ : profile.followersCount--;
+        profile.following = !get().profile!.following;
+      }
+      const followings = get().followings;
+      followings.forEach((profile) => {
+        if (profile.username === username) {
+          profile.following
+            ? profile.followersCount--
+            : profile.followersCount++;
+          profile.following = !profile.following;
+        }
+      });
+      set({
+        profile,
+        followings,
+      });
     } catch (e) {
       console.log(e);
     }

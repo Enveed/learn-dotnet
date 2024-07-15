@@ -208,4 +208,22 @@ export const createActivitySlice: StateCreator<
   clearSelectedActivity: () => {
     set({ selectedActivity: undefined });
   },
+  updateAttendeeFollowing: (username: string) => {
+    set((state) => {
+      const tempActivityRegistry = new Map(state.activityRegistry);
+      tempActivityRegistry.forEach((activity) => {
+        activity.attendees.forEach((attendee) => {
+          if (attendee.username === username) {
+            attendee.following
+              ? attendee.followersCount--
+              : attendee.followersCount++;
+            attendee.following = !attendee.following;
+          }
+        });
+      });
+      return {
+        activityRegistry: tempActivityRegistry,
+      };
+    });
+  },
 });

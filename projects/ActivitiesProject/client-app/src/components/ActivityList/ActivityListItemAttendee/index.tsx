@@ -1,5 +1,4 @@
 import { Image, List, Popup } from "semantic-ui-react";
-import { useBoundStore } from "../../../stores";
 import { Profile } from "../../../interfaces";
 import { Link } from "react-router-dom";
 import { ProfileCard } from "../..";
@@ -11,7 +10,7 @@ interface Props {
 export default function ActivityListItemAttendee({ attendees }: Props) {
   const styles = {
     borderColor: "orange",
-    borderWidth: 2,
+    borderWidth: 3,
   };
 
   return (
