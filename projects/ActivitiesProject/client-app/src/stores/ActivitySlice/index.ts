@@ -8,6 +8,7 @@ import { format } from "date-fns";
 import { UserSlice } from "../UserSlice/index.interface";
 import { ProfileSlice } from "../ProfileSlice/index.interface";
 import { CommentSlice } from "../CommentSlice/index.interface";
+import { PagingParams } from "../../interfaces/Pagination/index.interface";
 
 export const createActivitySlice: StateCreator<
   ActivitySlice & CommonSlice & UserSlice & ProfileSlice & CommentSlice,
@@ -21,6 +22,17 @@ export const createActivitySlice: StateCreator<
   editMode: false,
   loading: false,
   loadingInitial: false,
+  pagination: null,
+  pagingParams: new PagingParams(),
+  setPagingParams: (pagingParams: PagingParams) => {
+    set({ pagingParams });
+  },
+  getAxiosParams: () => {
+    const params = new URLSearchParams();
+    params.append("pageNumber", get().pagingParams.pageNumber.toString());
+    params.append("pageSize", get().pagingParams.pageSize.toString());
+    return params;
+  },
   getActivitiesByDate: () => {
     return Array.from(get().activityRegistry.values()).sort(
       (a, b) => a.date!.getTime() - b.date!.getTime()
@@ -42,12 +54,16 @@ export const createActivitySlice: StateCreator<
   loadActivities: async () => {
     set({ loadingInitial: true });
     try {
-      const activities = await agent.Activities.list();
-      activities.forEach((activity) => get().setActivity(activity));
+      const result = await agent.Activities.list(get().getAxiosParams());
+      result.data.forEach((activity) => get().setActivity(activity));
+      get().setPagination(result.pagination);
     } catch (e) {
       console.log(e);
     }
     set({ loadingInitial: false });
+  },
+  setPagination: (pagination) => {
+    set({ pagination });
   },
   loadActivity: async (id: string) => {
     let activity = get().activityRegistry.get(id);

@@ -1,4 +1,8 @@
 import { Activity, ActivityFormValues } from "../../interfaces";
+import {
+  Pagination,
+  PagingParams,
+} from "../../interfaces/Pagination/index.interface";
 
 export interface ActivitySlice {
   activities: Activity[];
@@ -7,6 +11,8 @@ export interface ActivitySlice {
   editMode: boolean;
   loading: boolean;
   loadingInitial: boolean;
+  pagination: Pagination | null;
+  pagingParams: PagingParams;
   getActivitiesByDate: () => Activity[];
   loadActivities: () => void;
   loadActivity: (id: string) => Promise<Activity | undefined>;
@@ -19,4 +25,7 @@ export interface ActivitySlice {
   cancelActivityToggle: () => void;
   clearSelectedActivity: () => void;
   updateAttendeeFollowing: (username: string) => void;
+  setPagination: (pagination: Pagination) => void;
+  setPagingParams: (pagingParams: PagingParams) => void;
+  getAxiosParams: () => URLSearchParams;
 }

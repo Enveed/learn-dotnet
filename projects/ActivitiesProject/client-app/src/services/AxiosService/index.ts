@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { router } from "../../routes";
 import { useBoundStore } from "../../stores";
 import { Photo } from "../../interfaces/Profile/index.interface";
+import { PaginatedResult } from "../../interfaces/Pagination/index.interface";
 
 axios.defaults.baseURL = "http://localhost:5000/api";
 
@@ -25,6 +26,14 @@ axios.interceptors.request.use((config) => {
 
 axios.interceptors.response.use(
   async (response) => {
+    const pagination = response.headers["pagination"];
+    if (pagination) {
+      response.data = new PaginatedResult(
+        response.data,
+        JSON.parse(pagination)
+      );
+      return response as AxiosResponse<PaginatedResult<unknown>>;
+    }
     return response;
   },
   (error: AxiosError) => {
@@ -78,7 +87,10 @@ const requests = {
 };
 
 const Activities = {
-  list: () => requests.get<Activity[]>("/activities"),
+  list: (params: URLSearchParams) =>
+    axios
+      .get<PaginatedResult<Activity[]>>("/activities", { params })
+      .then(responseBody),
   details: (id: string) => requests.get<Activity>(`/activities/${id}`),
   create: (activity: ActivityFormValues) =>
     requests.post<void>(`/activities`, activity),
