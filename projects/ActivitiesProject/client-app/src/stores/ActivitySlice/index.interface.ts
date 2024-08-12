@@ -14,7 +14,7 @@ export interface ActivitySlice {
   pagination: Pagination | null;
   pagingParams: PagingParams;
   getActivitiesByDate: () => Activity[];
-  loadActivities: () => void;
+  loadActivities: () => Promise<void>;
   loadActivity: (id: string) => Promise<Activity | undefined>;
   createActivity: (activity: ActivityFormValues) => Promise<void>;
   updateActivity: (activity: ActivityFormValues) => Promise<void>;
