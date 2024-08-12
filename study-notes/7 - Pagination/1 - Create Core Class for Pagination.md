@@ -52,7 +52,21 @@ namespace Application.Core
         }
     }
 }
+```
 
+``` c#
+// Application/Core/ActivityParams.cs
+using Application.Core;
+  
+namespace Application.Activities
+{
+    public class ActivityParams : PagingParams
+    {
+        public bool IsGoing { get; set; }
+        public bool IsHost { get; set; }
+        public DateTime StartDate { get; set; } = DateTime.UtcNow;
+    }
+}
 ```
 
 * Next, we need to create an extension method to add Pagination properties to header:
@@ -105,16 +119,15 @@ using Application.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Persistence;
-
+  
 namespace Application.Activities
 {
     public class List
     {
         public class Query : IRequest<Result<PagedList<ActivityDto>>>
         {
-            public PagingParams Params { get; set; }
+            public ActivityParams Params { get; set; }
         }
 
         public class Handler(DataContext context, IMapper mapper, IUserAccessor userAccessor) : IRequestHandler<Query, Result<PagedList<ActivityDto>>>
@@ -126,9 +139,20 @@ namespace Application.Activities
             public async Task<Result<PagedList<ActivityDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var query = _context.Activities
+                    .Where(d => d.Date >= request.Params.StartDate)
                     .OrderBy(d => d.Date)
                     .ProjectTo<ActivityDto>(_mapper.ConfigurationProvider, new { currentUsername = _userAccessor.GetUsername() })
                     .AsQueryable();
+  
+                if (request.Params.IsGoing && !request.Params.IsHost)
+                {
+                    query = query.Where(x => x.Attendees.Any(a => a.Username == _userAccessor.GetUsername()));
+                }
+
+                if (request.Params.IsHost && !request.Params.IsGoing)
+                {
+                    query = query.Where(x => x.HostUsername == _userAccessor.GetUsername());
+                }
 
                 return Result<PagedList<ActivityDto>>.Success(
                     await PagedList<ActivityDto>.CreateAsync(query, request.Params.PageNumber, request.Params.PageSize));
@@ -141,7 +165,7 @@ namespace Application.Activities
 ``` c#
 // API/Controllers/ActivitiesController.cs
 [HttpGet]
-    public async Task<IActionResult> GetActivities([FromQuery] PagingParams param)
+    public async Task<IActionResult> GetActivities([FromQuery] ActivityParams param)
     {
         return HandlePagedResult(await Mediator.Send(new List.Query { Params = param }));
     }
