@@ -24,13 +24,57 @@ export const createActivitySlice: StateCreator<
   loadingInitial: false,
   pagination: null,
   pagingParams: new PagingParams(),
+  predicate: new Map().set("all", true),
   setPagingParams: (pagingParams: PagingParams) => {
     set({ pagingParams });
+  },
+  setPredicate: (predicate, value) => {
+    const resetPredicate = () => {
+      get().predicate.forEach((value, key) => {
+        if (key !== "startDate") get().predicate.delete(key);
+      });
+    };
+
+    switch (predicate) {
+      case "all":
+        resetPredicate();
+        set({ predicate: get().predicate.set("all", true) });
+        break;
+      case "isGoing":
+        resetPredicate();
+        set({ predicate: get().predicate.set("isGoing", true) });
+        break;
+      case "isHost":
+        resetPredicate();
+        set({ predicate: get().predicate.set("isHost", true) });
+        break;
+      case "startDate":
+        set({ predicate: get().predicate.set("startDate", value) });
+    }
+
+    set((state) => {
+      const tempActivityRegistry = new Map(state.activityRegistry);
+      tempActivityRegistry.clear();
+
+      return {
+        pagingParams: new PagingParams(),
+        activityRegistry: tempActivityRegistry,
+      };
+    });
+    get().loadActivities();
   },
   getAxiosParams: () => {
     const params = new URLSearchParams();
     params.append("pageNumber", get().pagingParams.pageNumber.toString());
     params.append("pageSize", get().pagingParams.pageSize.toString());
+    get().predicate.forEach((value, key) => {
+      console.log(key);
+      if (key === "startDate") {
+        params.append(key, (value as unknown as Date).toISOString());
+      } else {
+        params.append(key, String(value));
+      }
+    });
     return params;
   },
   getActivitiesByDate: () => {

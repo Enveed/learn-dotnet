@@ -13,6 +13,7 @@ export interface ActivitySlice {
   loadingInitial: boolean;
   pagination: Pagination | null;
   pagingParams: PagingParams;
+  predicate: Map<string, boolean | Date>;
   getActivitiesByDate: () => Activity[];
   loadActivities: () => Promise<void>;
   loadActivity: (id: string) => Promise<Activity | undefined>;
@@ -27,5 +28,6 @@ export interface ActivitySlice {
   updateAttendeeFollowing: (username: string) => void;
   setPagination: (pagination: Pagination) => void;
   setPagingParams: (pagingParams: PagingParams) => void;
+  setPredicate: (predicate: string, value: Date | boolean) => void;
   getAxiosParams: () => URLSearchParams;
 }
