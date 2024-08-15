@@ -1,7 +1,7 @@
 import "./styles.css";
 import { Container } from "@chakra-ui/react";
 import { LoadingComponent, Navbar } from "..";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, ScrollRestoration, useLocation } from "react-router-dom";
 import { Home } from "../../pages";
 import { ToastContainer } from "react-toastify";
 import { useBoundStore } from "../../stores";
@@ -24,6 +24,7 @@ function Layout() {
 
   return (
     <>
+      <ScrollRestoration />
       <ModalContainer />
       <ToastContainer position="bottom-right" hideProgressBar theme="colored" />
       {location.pathname === "/" ? (
