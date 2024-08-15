@@ -4,6 +4,7 @@ import {
   ActivityFormValues,
   Profile,
   User,
+  UserActivity,
   UserFormValues,
 } from "../../interfaces";
 import { toast } from "react-toastify";
@@ -126,6 +127,10 @@ const Profiles = {
     requests.post(`/follow/${username}`, {}),
   listFollowings: (username: string, predicate: string) =>
     requests.get<Profile[]>(`/follow/${username}?predicate=${predicate}`),
+  listActivities: (username: string, predicate: string) =>
+    requests.get<UserActivity[]>(
+      `/profiles/${username}/activities?predicate=${predicate}`
+    ),
 };
 
 const agent = { Activities, Account, Profiles };

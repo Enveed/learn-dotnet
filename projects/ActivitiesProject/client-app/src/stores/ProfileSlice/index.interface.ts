@@ -1,4 +1,4 @@
-import { Profile } from "../../interfaces";
+import { Profile, UserActivity } from "../../interfaces";
 import { Photo } from "../../interfaces/Profile/index.interface";
 
 export interface ProfileSlice {
@@ -7,6 +7,8 @@ export interface ProfileSlice {
   uploading: boolean;
   followings: Profile[];
   loadingFollowings: boolean;
+  loadingActivities: boolean;
+  userActivities: UserActivity[];
   loadProfile: (username: string) => Promise<void>;
   isCurrentUser: () => boolean;
   uploadPhoto: (file: Blob) => Promise<void>;
@@ -16,4 +18,5 @@ export interface ProfileSlice {
   updateProfile: (profile: Partial<Profile>) => Promise<void>;
   updateFollowing: (username: string, following: boolean) => Promise<void>;
   loadFollowings: (predicate: string) => Promise<void>;
+  loadUserActivities: (username: string, predicate: string) => Promise<void>;
 }

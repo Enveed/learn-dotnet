@@ -17,6 +17,8 @@ export const createProfileSlice: StateCreator<
   loadingFollowings: false,
   uploading: false,
   followings: [],
+  userActivities: [],
+  loadingActivities: false,
   loadProfile: async (username: string) => {
     set({ loadingProfile: true });
     try {
@@ -160,5 +162,20 @@ export const createProfileSlice: StateCreator<
       console.log(e);
     }
     set({ loadingFollowings: false });
+  },
+  loadUserActivities: async (username, predicate) => {
+    set({ loadingActivities: true });
+    try {
+      const activities = await agent.Profiles.listActivities(
+        username,
+        predicate
+      );
+      set({
+        userActivities: activities,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+    set({ loadingActivities: false });
   },
 });
