@@ -1,6 +1,5 @@
 import { ActivityList } from "..";
 import { useEffect, useState } from "react";
-import { LoadingComponent } from "..";
 import ActivityFilters from "./ActivityFilters";
 import { useBoundStore } from "../../stores";
 import { PagingParams } from "../../interfaces/Pagination/index.interface";
