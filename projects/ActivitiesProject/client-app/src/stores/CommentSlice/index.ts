@@ -19,9 +19,12 @@ export const createCommentSlice: StateCreator<
     if (get().selectedActivity) {
       set({
         hubConnection: new HubConnectionBuilder()
-          .withUrl("http://localhost:5000/chat?activityId=" + activityId, {
-            accessTokenFactory: () => get().user?.token as string,
-          })
+          .withUrl(
+            `${import.meta.env.VITE_CHAT_URL}?activityId=` + activityId,
+            {
+              accessTokenFactory: () => get().user?.token as string,
+            }
+          )
           .withAutomaticReconnect()
           .configureLogging(LogLevel.Information)
           .build(),

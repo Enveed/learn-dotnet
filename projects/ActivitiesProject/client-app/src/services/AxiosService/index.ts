@@ -13,7 +13,7 @@ import { useBoundStore } from "../../stores";
 import { Photo } from "../../interfaces/Profile/index.interface";
 import { PaginatedResult } from "../../interfaces/Pagination/index.interface";
 
-axios.defaults.baseURL = "http://localhost:5000/api";
+axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 
 const responseBody = function <T>(response: AxiosResponse<T>) {
   return response.data;

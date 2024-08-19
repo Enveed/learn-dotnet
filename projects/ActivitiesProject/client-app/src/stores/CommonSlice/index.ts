@@ -10,7 +10,7 @@ export const createCommonSlice: StateCreator<
   [],
   [],
   CommonSlice
-> = (set, get) => ({
+> = (set) => ({
   error: null,
   token: localStorage.getItem("jwt"),
   appLoaded: false,

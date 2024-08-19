@@ -30,7 +30,7 @@ export const createActivitySlice: StateCreator<
   },
   setPredicate: (predicate, value) => {
     const resetPredicate = () => {
-      get().predicate.forEach((value, key) => {
+      get().predicate.forEach((_value, key) => {
         if (key !== "startDate") get().predicate.delete(key);
       });
     };
@@ -215,7 +215,7 @@ export const createActivitySlice: StateCreator<
         set((state) => ({
           selectedActivity: {
             ...state.selectedActivity!,
-            attendees: state.selectedActivity?.attendees?.filter(
+            attendees: state.selectedActivity!.attendees.filter(
               (a) => a.username !== user?.username
             ),
             isGoing: false,
@@ -224,7 +224,7 @@ export const createActivitySlice: StateCreator<
       } else {
         const attendee = new Profile(user!);
         set((state) => {
-          const tempAttendee = state.selectedActivity?.attendees;
+          const tempAttendee = state.selectedActivity!.attendees;
           tempAttendee?.push(attendee);
           return {
             selectedActivity: {

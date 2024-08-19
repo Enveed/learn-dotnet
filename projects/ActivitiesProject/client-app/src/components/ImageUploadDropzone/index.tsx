@@ -7,19 +7,6 @@ interface Props {
 }
 
 export default function ImageUploadDropzone({ setFiles }: Props) {
-  const dzStyles = {
-    border: "dashed 3px #eee",
-    borderColor: "#eee",
-    borderRadius: "5px",
-    paddingTop: "30px",
-    textAlign: "center",
-    height: 200,
-  };
-
-  const dzActive = {
-    borderColor: "green",
-  };
-
   const onDrop = useCallback(
     (acceptedFiles: object[]) => {
       setFiles(
@@ -35,7 +22,14 @@ export default function ImageUploadDropzone({ setFiles }: Props) {
   return (
     <div
       {...getRootProps()}
-      style={isDragActive ? { ...dzStyles, ...dzActive } : dzStyles}
+      style={{
+        border: "dashed 3px #eee",
+        borderColor: isDragActive ? "#eee" : "green",
+        borderRadius: "5px",
+        paddingTop: "30px",
+        textAlign: "center",
+        height: 200,
+      }}
     >
       <input {...getInputProps()} />
       <Icon name="upload" size="huge" />
